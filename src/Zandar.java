@@ -39,9 +39,19 @@ public class Zandar {
         start_screen = new StartScreen();
         frame.add(start_screen);
         start_screen.initPlayers();
-        start_screen.initPlayButton();
-        start_screen.add(start_screen.play_btn);
-        start_screen.play_btn.setLocation(600, 600);
+        start_screen.initStartButton();
+
+        start_screen.add(start_screen.start_btn);
+        start_screen.add(start_screen.player_1_btn);
+        start_screen.add(start_screen.player_2_btn);
+        start_screen.add(start_screen.player_3_btn);
+        start_screen.add(start_screen.player_4_btn);
+
+        start_screen.start_btn.setLocation(600, 600);
+        start_screen.player_1_btn.setLocation(340, 300);
+        start_screen.player_2_btn.setLocation(580, 300);
+        start_screen.player_3_btn.setLocation(820, 300);
+        start_screen.player_4_btn.setLocation(1060, 300);
 
         while(start_screen.getStartGame() != true) {
             Thread.sleep(100);

@@ -1,18 +1,16 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 
 public class StartScreen extends JPanel implements ActionListener{
 
 /******************************************MEMBER-VARIABLES****************************************/
     
-    ArrayList<JButton> character_buttons = new ArrayList<>();
-    public JButton play_btn;
-    public JButton player_1;
-    public JButton player_2;
-    public JButton player_3;
-    public JButton player_4;
+    public JButton start_btn;
+    public JButton player_1_btn;
+    public JButton player_2_btn;
+    public JButton player_3_btn;
+    public JButton player_4_btn;
 
     private boolean start_game = false;
     private PlayerType choosen_player = PlayerType.NONE;
@@ -37,19 +35,19 @@ public class StartScreen extends JPanel implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		if(e.getSource() == character_buttons.get(0)) {
+		if(e.getSource() == player_1_btn) {
             choosen_player = PlayerType.PLAYER_1;
 		}
-        if(e.getSource() == character_buttons.get(1)) {
+        if(e.getSource() == player_2_btn) {
             choosen_player = PlayerType.PLAYER_2;
 		}
-        if(e.getSource() == character_buttons.get(2)) {
+        if(e.getSource() == player_3_btn) {
             choosen_player = PlayerType.PLAYER_3;
 		}
-        if(e.getSource() == character_buttons.get(3)) {
+        if(e.getSource() == player_4_btn) {
             choosen_player = PlayerType.PLAYER_4;
 		}
-        if(e.getSource() == play_btn) {
+        if(e.getSource() == start_btn) {
             if(choosen_player == PlayerType.NONE) {
                 System.out.println("CHOOSE A PLAYER!");
             }
@@ -60,25 +58,38 @@ public class StartScreen extends JPanel implements ActionListener{
 	}
 
     public void initPlayers() {
-        for(int player = 1; player <= Constants.NUM_PLAYERS; player++) {
-            ImageIcon character_image = new ImageIcon("players/player" + player + ".png");
-            Image resized = character_image.getImage().getScaledInstance(Constants.CHARACTER_IMAGE_WIDTH, Constants.CHARACTER_IMAGE_HEIGHT, java.awt.Image.SCALE_SMOOTH);
-            character_image = new ImageIcon(resized);
-            JButton character_btn = new JButton(character_image);
-           // character_btn.setSize(Constants.CHARACTER_IMAGE_WIDTH, Constants.CHARACTER_IMAGE_HEIGHT);
-            character_btn.setBounds(100 + player *230, 300, Constants.CHARACTER_IMAGE_WIDTH, Constants.CHARACTER_IMAGE_HEIGHT);
-            character_btn.addActionListener(this);
-            character_buttons.add(character_btn);
-            this.add(character_btn);
-        }
+        ImageIcon character_image = new ImageIcon("players/player1.png");
+        Image resized = character_image.getImage().getScaledInstance(Constants.CHARACTER_IMAGE_WIDTH, Constants.CHARACTER_IMAGE_HEIGHT, java.awt.Image.SCALE_SMOOTH);
+        player_1_btn = new JButton(new ImageIcon(resized));
+        player_1_btn.setSize(Constants.CHARACTER_IMAGE_WIDTH, Constants.CHARACTER_IMAGE_HEIGHT);
+        player_1_btn.addActionListener(this);
+
+        character_image = new ImageIcon("players/player2.png");
+        resized = character_image.getImage().getScaledInstance(Constants.CHARACTER_IMAGE_WIDTH, Constants.CHARACTER_IMAGE_HEIGHT, java.awt.Image.SCALE_SMOOTH);
+        player_2_btn = new JButton(new ImageIcon(resized));
+        player_2_btn.setSize(Constants.CHARACTER_IMAGE_WIDTH, Constants.CHARACTER_IMAGE_HEIGHT);
+        player_2_btn.addActionListener(this);
+
+        character_image = new ImageIcon("players/player3.png");
+        resized = character_image.getImage().getScaledInstance(Constants.CHARACTER_IMAGE_WIDTH, Constants.CHARACTER_IMAGE_HEIGHT, java.awt.Image.SCALE_SMOOTH);
+        player_3_btn = new JButton(new ImageIcon(resized));
+        player_3_btn.setSize(Constants.CHARACTER_IMAGE_WIDTH, Constants.CHARACTER_IMAGE_HEIGHT);
+        player_3_btn.addActionListener(this);
+
+        character_image = new ImageIcon("players/player4.png");
+        resized = character_image.getImage().getScaledInstance(Constants.CHARACTER_IMAGE_WIDTH, Constants.CHARACTER_IMAGE_HEIGHT, java.awt.Image.SCALE_SMOOTH);
+        player_4_btn = new JButton(new ImageIcon(resized));
+        player_4_btn.setSize(Constants.CHARACTER_IMAGE_WIDTH, Constants.CHARACTER_IMAGE_HEIGHT);
+        player_4_btn.addActionListener(this);
+        
     }
 
-    public void initPlayButton() {
-        ImageIcon play_btn_image = new ImageIcon("buttons/start.png");
-        Image resized = play_btn_image.getImage().getScaledInstance(Constants.PLAY_BUTTON_WIDTH, Constants.PLAY_BUTTON_HEIGHT, java.awt.Image.SCALE_SMOOTH);
-        play_btn = new JButton(new ImageIcon(resized));
-        play_btn.setSize(Constants.PLAY_BUTTON_WIDTH, Constants.PLAY_BUTTON_HEIGHT);
-        play_btn.addActionListener(this);
+    public void initStartButton() {
+        ImageIcon start_btn_image = new ImageIcon("buttons/start.png");
+        Image resized = start_btn_image.getImage().getScaledInstance(Constants.PLAY_BUTTON_WIDTH, Constants.PLAY_BUTTON_HEIGHT, java.awt.Image.SCALE_SMOOTH);
+        start_btn = new JButton(new ImageIcon(resized));
+        start_btn.setSize(Constants.PLAY_BUTTON_WIDTH, Constants.PLAY_BUTTON_HEIGHT);
+        start_btn.addActionListener(this);
     }
 
 /******************************************PRIVATE-METHODES****************************************/
