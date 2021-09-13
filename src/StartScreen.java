@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class StartScreen extends JPanel implements ActionListener{
 
 /******************************************MEMBER-VARIABLES****************************************/
+    
     ArrayList<JButton> character_buttons = new ArrayList<>();
     JButton play_btn;
 
@@ -21,12 +22,14 @@ public class StartScreen extends JPanel implements ActionListener{
     private static final int NUM_PLAYERS = 4;
 
 /******************************************CONSTRUCTORS********************************************/
+    
     public StartScreen() {
         this.setBackground(new Color(R,G,B));
         this.setVisible(true);
     }
 
 /******************************************PUBLIC-METHODES*****************************************/
+    
     public boolean getStartGame() {
         return start_game;
     }
@@ -60,7 +63,7 @@ public class StartScreen extends JPanel implements ActionListener{
             }
 		}
 	}
-/******************************************PUBLIC-METHODES*****************************************/
+
     public void addPlayers() {
         for(int player = 1; player < NUM_PLAYERS + 1; player++) {
             ImageIcon character_image = new ImageIcon("players/player" + player + ".png");
@@ -86,6 +89,7 @@ public class StartScreen extends JPanel implements ActionListener{
         this.add(play_btn);
     }
 
+/******************************************PRIVATE-METHODES****************************************/
 
 
 }

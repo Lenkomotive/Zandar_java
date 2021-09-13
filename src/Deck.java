@@ -6,17 +6,21 @@ import java.awt.*;
 
 public class Deck{
 /******************************************MEMBER-VARIABLES****************************************/
+  
     public final ArrayList<Card> cards = new ArrayList<>();
 
     public JLabel deck_backside_label;
     public JLabel num_cards_label;
+
 /******************************************CONSTRUCTORS********************************************/
+   
     public Deck() {
         initDeck();
         initDeckLabels();
     }
 
 /******************************************PUBLIC-METHODES*****************************************/
+    
     public ArrayList<Card> getCards() {
         return cards;
     }
@@ -27,8 +31,8 @@ public class Deck{
         return card;
     }
 
-
 /******************************************PRIVATE-METHODES****************************************/
+    
     private void initDeck() {
         for(int value = 1; value <= 13; value++) {
             cards.add(new Card(CardType.CLUB, value));

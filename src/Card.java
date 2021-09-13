@@ -31,7 +31,8 @@ public class Card extends JLabel{
     private static final int HEIGHT = 100;
 
 /******************************************CONSTRUCTORS********************************************/
-    public Card(CardType type, int value) {
+    
+public Card(CardType type, int value) {
         this.card_type = type;
         this.value = value;
         
@@ -46,35 +47,14 @@ public class Card extends JLabel{
                 doOnClick();
             }           
           });
-
     }
 
 /******************************************PUBLIC-METHODES*****************************************/
+    
     public int getValue() {
         return value;
     }
 
-/******************************************PRIVATE-METHODES****************************************/
-    private String getPath() {
-        String path = PATH;
-        switch (card_type) {
-            case CLUB:
-                path += this.value + PATH_CLUB + PATH_END;
-                break;
-            case DIAMOND:
-                path += this.value + PATH_DIAMOND + PATH_END;
-                break;
-            case HEART:
-                path += this.value + PATH_HEART + PATH_END;
-                break;
-            case SPADE:
-                path += this.value + PATH_SPADE + PATH_END;
-                break;
-        }
-        return path;
-    }
-    
-/******************************************PUBLIC-METHODES*****************************************/
     public void setPosition(int x, int y) {
         this.setLocation(x, y);
     }
@@ -97,4 +77,27 @@ public class Card extends JLabel{
             position = Position.DOWN;
         }
     }
+    
+/******************************************PRIVATE-METHODES****************************************/
+   
+    private String getPath() {
+        String path = PATH;
+        switch (card_type) {
+            case CLUB:
+                path += this.value + PATH_CLUB + PATH_END;
+                break;
+            case DIAMOND:
+                path += this.value + PATH_DIAMOND + PATH_END;
+                break;
+            case HEART:
+                path += this.value + PATH_HEART + PATH_END;
+                break;
+            case SPADE:
+                path += this.value + PATH_SPADE + PATH_END;
+                break;
+        }
+        return path;
+    }
+    
+
 }
