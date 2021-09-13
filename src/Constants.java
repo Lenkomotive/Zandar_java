@@ -2,6 +2,11 @@ public class Constants {
 
     //!Game
     public static final int TOTAL_CARDS = 52;
+    public static final int NUM_PLAYERS = 4;
+
+    public static final int RED = 12;
+    public static final int GREEN = 100;
+    public static final int BLUE = 12;
 
     //!Player
     public static final int PLAYER_IMAGE_WIDTH = 150;
@@ -59,4 +64,11 @@ public class Constants {
 
     public static final int DECK_NUM_CARD_WIDTH = 100;
     public static final int DECK_NUM_CARD_HEIGHT = 50;
+
+    //!StartScreen
+    public static final int CHARACTER_IMAGE_WIDTH = 200;
+    public static final int CHARACTER_IMAGE_HEIGHT = 250;
+
+    public static final int PLAY_BUTTON_WIDTH = 400;
+    public static final int PLAY_BUTTON_HEIGHT = 150;
 }

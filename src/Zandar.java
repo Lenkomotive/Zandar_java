@@ -1,5 +1,5 @@
 
-public class App {
+public class Zandar {
 
     static Frame frame;
     static StartScreen start_screen;
@@ -38,8 +38,10 @@ public class App {
     static void showStartScreen() throws InterruptedException {
         start_screen = new StartScreen();
         frame.add(start_screen);
-        start_screen.addPlayers();
-        start_screen.addPlayButton();
+        start_screen.initPlayers();
+        start_screen.initPlayButton();
+        start_screen.add(start_screen.play_btn);
+        start_screen.play_btn.setLocation(600, 600);
 
         while(start_screen.getStartGame() != true) {
             Thread.sleep(100);

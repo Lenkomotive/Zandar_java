@@ -8,23 +8,19 @@ public class StartScreen extends JPanel implements ActionListener{
 /******************************************MEMBER-VARIABLES****************************************/
     
     ArrayList<JButton> character_buttons = new ArrayList<>();
-    JButton play_btn;
+    public JButton play_btn;
+    public JButton player_1;
+    public JButton player_2;
+    public JButton player_3;
+    public JButton player_4;
 
     private boolean start_game = false;
     private PlayerType choosen_player = PlayerType.NONE;
 
-    private int R = 12;
-    private int G = 100;
-    private int B = 12;
-
-    private static final int IMAGE_WIDTH = 200;
-    private static final int IMAGE_HEIGHT = 250;
-    private static final int NUM_PLAYERS = 4;
-
 /******************************************CONSTRUCTORS********************************************/
     
     public StartScreen() {
-        this.setBackground(new Color(R,G,B));
+        this.setBackground(new Color(Constants.RED, Constants.GREEN, Constants.BLUE));
         this.setVisible(true);
     }
 
@@ -56,7 +52,6 @@ public class StartScreen extends JPanel implements ActionListener{
         if(e.getSource() == play_btn) {
             if(choosen_player == PlayerType.NONE) {
                 System.out.println("CHOOSE A PLAYER!");
-                //!TODO make this a label!
             }
             else {
                 start_game = true;
@@ -64,29 +59,26 @@ public class StartScreen extends JPanel implements ActionListener{
 		}
 	}
 
-    public void addPlayers() {
-        for(int player = 1; player < NUM_PLAYERS + 1; player++) {
+    public void initPlayers() {
+        for(int player = 1; player <= Constants.NUM_PLAYERS; player++) {
             ImageIcon character_image = new ImageIcon("players/player" + player + ".png");
-            Image resized = character_image.getImage().getScaledInstance(IMAGE_WIDTH, IMAGE_HEIGHT, java.awt.Image.SCALE_SMOOTH);
+            Image resized = character_image.getImage().getScaledInstance(Constants.CHARACTER_IMAGE_WIDTH, Constants.CHARACTER_IMAGE_HEIGHT, java.awt.Image.SCALE_SMOOTH);
             character_image = new ImageIcon(resized);
             JButton character_btn = new JButton(character_image);
-            character_btn.setBounds(100 + player *210,100, IMAGE_WIDTH, IMAGE_HEIGHT);
-            //character_btn.setVisible(true);
-            //!TODO Border emptyBorder = BorderFactory.createEmptyBorder();
+           // character_btn.setSize(Constants.CHARACTER_IMAGE_WIDTH, Constants.CHARACTER_IMAGE_HEIGHT);
+            character_btn.setBounds(100 + player *230, 300, Constants.CHARACTER_IMAGE_WIDTH, Constants.CHARACTER_IMAGE_HEIGHT);
             character_btn.addActionListener(this);
             character_buttons.add(character_btn);
             this.add(character_btn);
         }
     }
 
-    public void addPlayButton() {
-        ImageIcon play_btn_image = new ImageIcon("buttons/play.png");
-        Image resized = play_btn_image.getImage().getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH);
+    public void initPlayButton() {
+        ImageIcon play_btn_image = new ImageIcon("buttons/start.png");
+        Image resized = play_btn_image.getImage().getScaledInstance(Constants.PLAY_BUTTON_WIDTH, Constants.PLAY_BUTTON_HEIGHT, java.awt.Image.SCALE_SMOOTH);
         play_btn = new JButton(new ImageIcon(resized));
-        play_btn.setBounds(1400,800, 150, 150);
-       // play_btn.setVisible(true);
+        play_btn.setSize(Constants.PLAY_BUTTON_WIDTH, Constants.PLAY_BUTTON_HEIGHT);
         play_btn.addActionListener(this);
-        this.add(play_btn);
     }
 
 /******************************************PRIVATE-METHODES****************************************/
