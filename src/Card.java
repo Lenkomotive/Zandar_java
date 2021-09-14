@@ -1,11 +1,9 @@
 import javax.swing.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
+import java.awt.event.*;
 import java.awt.*;
 
 enum CardType {CLUB, DIAMOND, HEART, SPADE};
-enum Position {UP, DOWN};
+enum State {INACTIVE, ACTIVE};
 
 public class Card extends JLabel{
 
@@ -13,7 +11,7 @@ public class Card extends JLabel{
 
     private CardType card_type;
 
-    private int value;
+    public int value;
 
     public final String PATH_CLUB = "_of_clubs";
     public final String PATH_DIAMOND = "_of_diamonds";
@@ -22,13 +20,7 @@ public class Card extends JLabel{
     public final String PATH = "cards/";
     public final String PATH_END = ".png";
     
-    static int pos_x = 0;
-    static int pos_y = 0;
-
-    Position position = Position.DOWN;
-
-    private static final int WIDTH = 100;
-    private static final int HEIGHT = 120;
+    State state = State.INACTIVE;
 
 /******************************************CONSTRUCTORS********************************************/
     
@@ -37,10 +29,10 @@ public Card(CardType type, int value) {
         this.value = value;
         
         ImageIcon image = new ImageIcon(getPath());
-        Image resized = image.getImage().getScaledInstance(WIDTH, HEIGHT,  java.awt.Image.SCALE_SMOOTH);
+        Image resized = image.getImage().getScaledInstance(Constants.CARD_WIDTH, Constants.CARD_HEIGHT,  java.awt.Image.SCALE_SMOOTH);
         image = new ImageIcon(resized);
         this.setIcon(image);
-        this.setSize(WIDTH, HEIGHT);
+        this.setSize(Constants.CARD_WIDTH, Constants.CARD_HEIGHT);
 
         this.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent me) {
@@ -51,32 +43,7 @@ public Card(CardType type, int value) {
 
 /******************************************PUBLIC-METHODES*****************************************/
     
-    public int getValue() {
-        return value;
-    }
 
-    public void setPosition(int x, int y) {
-        this.setLocation(x, y);
-    }
-
-
-    public void floatCard() throws InterruptedException {
-        for(int i = 0; i < 300; i++) {
-            this.setLocation(0+5*i, 300);
-            Thread.sleep(20);
-        }
-    }
-
-    private void doOnClick() {
-        if(this.position == Position.DOWN) {
-            setPosition(500, 190);
-            position = Position.UP;
-        }
-        else {
-            setPosition(500, 200);
-            position = Position.DOWN;
-        }
-    }
     
 /******************************************PRIVATE-METHODES****************************************/
    
@@ -99,5 +66,14 @@ public Card(CardType type, int value) {
         return path;
     }
     
-
+    private void doOnClick() {
+        if(this.state == State.INACTIVE) {
+            this.setLocation(this.getLocation().x, this.getLocation().y - 20);
+            state = State.ACTIVE;
+        }
+        else {
+            this.setLocation(this.getLocation().x, this.getLocation().y + 20);
+            state = State.INACTIVE;
+        }
+    }
 }

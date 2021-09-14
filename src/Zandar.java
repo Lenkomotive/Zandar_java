@@ -1,4 +1,3 @@
-
 public class Zandar {
 
     static Frame frame;
@@ -8,6 +7,9 @@ public class Zandar {
     static Bot bot;
     static Player player;
     static Deck deck;
+
+    enum ActivePlayer {PLAYER, BOT, NONE};
+    static ActivePlayer active_player = ActivePlayer.NONE;
     public static void main(String[] args) throws Exception {
         frame = new Frame();
         showStartScreen();
@@ -15,14 +17,23 @@ public class Zandar {
         initDeck();
         initPlayer();
         initBot();
+        active_player = ActivePlayer.PLAYER;
+        
+        while(deck.cards.size() != 0) {
+            dealCards();
 
-        dealCards();
+            switch (active_player) {
+                case PLAYER:
+                    chooseAction();
+                    break;
+                case BOT:
+                    break;
+                default:
+                    break;            
+            }
+        }
 
-        // while(num_cards != 0) {
-        // }
-    
-
-
+        active_player = active_player == ActivePlayer.PLAYER? ActivePlayer.BOT : active_player;
 
     }
 
@@ -61,70 +72,66 @@ public class Zandar {
     static void initPlayer() {
         player = new Player(start_screen.getChoosenPlayer());
         board.add(player);
-        player.setLocation(Constants.PLAYER_IMAGE_POSITION_X, Constants.PLAYER_IMAGE_POSITION_Y);
         board.add(player.num_cards_label);
-        player.num_cards_label.setLocation(Constants.PLAYER_NUM_CARD_POSITION_X, Constants.PLAYER_NUM_CARD_POSITION_Y);
         board.add(player.deck_backside_label);
+        player.setLocation(Constants.PLAYER_IMAGE_POSITION_X, Constants.PLAYER_IMAGE_POSITION_Y);
+        player.num_cards_label.setLocation(Constants.PLAYER_NUM_CARD_POSITION_X, Constants.PLAYER_NUM_CARD_POSITION_Y);
         player.deck_backside_label.setLocation(Constants.PLAYER_DECK_POSITION_X, Constants.PLAYER_DECK_POSITION_Y);
     }
 
     static void initBot() {
         bot = new Bot();
         board.add(bot);
-        bot.setLocation(Constants.BOT_IMAGE_POSITION_X, Constants.BOT_IMAGE_POSITION_Y);
         board.add(bot.num_cards_label);
-        bot.num_cards_label.setLocation(Constants.BOT_NUM_CARD_POSITION_X, Constants.BOT_NUM_CARD_POSITION_Y);
         board.add(bot.deck_backside_label);
+        bot.setLocation(Constants.BOT_IMAGE_POSITION_X, Constants.BOT_IMAGE_POSITION_Y);
+        bot.num_cards_label.setLocation(Constants.BOT_NUM_CARD_POSITION_X, Constants.BOT_NUM_CARD_POSITION_Y);
         bot.deck_backside_label.setLocation(Constants.BOT_DECK_POSITION_X, Constants.BOT_DECK_POSITION_Y);
     }
 
     static void initDeck() {
         deck = new Deck();
         board.add(deck.num_cards_label);
-        deck.num_cards_label.setLocation(Constants.DECK_NUM_CARD_POSITION_X, Constants.DECK_NUM_CARD_POSITION_Y);
         board.add(deck.deck_backside_label);
+        deck.num_cards_label.setLocation(Constants.DECK_NUM_CARD_POSITION_X, Constants.DECK_NUM_CARD_POSITION_Y);
         deck.deck_backside_label.setLocation(Constants.DECK_POSITION_X, Constants.DECK_POSITION_Y);
     }
 
     static void dealCards() throws InterruptedException{
 
-        int x = Constants.CARDS_MOST_LEFT_POSITION;
-        for(int num_card = 0; num_card < 8; num_card++) {
+        int X = Constants.CARDS_MOST_LEFT_POSITION;
+
+        for(int num_card = 0, dealt_cards = 1; num_card < 8; num_card++, dealt_cards++) {
             Card card = deck.getCard();
             deck.num_cards_label.setText(Integer.toString(deck.cards.size()));
-            if(num_card % 2 == 0) { 
+            if(num_card % 2 == active_player.ordinal()) { 
                 player.cards.add(card);
                 board.add(card);
-                card.setLocation(x, Constants.PLAYER_CARD_Y);
+                card.setLocation(X, Constants.PLAYER_CARD_Y);
             }
             else { 
                 bot.cards.add(card);
                 board.add(card);
-                card.setLocation(x, Constants.BOT_CARD_Y);
-                x += Constants.PLAYER_CARD_DISTANCE;
-        }
+                card.setLocation(X, Constants.BOT_CARD_Y);
+            }
+            X = dealt_cards == 2? X += Constants.PLAYER_CARD_DISTANCE : X; 
+            dealt_cards = dealt_cards == 2 ? 0: dealt_cards;
             Thread.sleep(Constants.SLEEP_BETWEEN_DEALING);
         }
 
-        x = Constants.CARDS_MOST_LEFT_POSITION;
-        for(int i = 0; i < 8; i++) {
+        X = Constants.CARDS_MOST_LEFT_POSITION;
+        for(int i = 0; i < 4; i++) {
             Card card = deck.getCard();
             board.cards.add(card);
             board.add(card);
             deck.num_cards_label.setText(Integer.toString(deck.cards.size()));
-            card.setLocation(x, Constants.BOARD_CARD_Y);
-            x += Constants.BOARD_CARD_DISTANCE;
+            card.setLocation(X, Constants.BOARD_CARD_Y);
+            X += Constants.BOARD_CARD_DISTANCE;
             Thread.sleep(Constants.SLEEP_BETWEEN_DEALING);
         }
-        x = Constants.CARDS_MOST_LEFT_POSITION;
-        for(int i = 0; i < 8; i++) {
-            Card card = deck.getCard();
-            board.cards.add(card);
-            board.add(card);
-            deck.num_cards_label.setText(Integer.toString(deck.cards.size()));
-            card.setLocation(x, 500);
-            x += Constants.BOARD_CARD_DISTANCE;
-            Thread.sleep(Constants.SLEEP_BETWEEN_DEALING);
-        }
+    }
+
+    static void chooseAction() {
+
     }
 }
