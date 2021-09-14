@@ -1,7 +1,7 @@
 import javax.swing.*;
 
 import java.awt.*;
-//import java.util.ArrayList;
+import java.util.ArrayList;
 
 enum PlayerType {NONE, PLAYER_1, PLAYER_2, PLAYER_3, PLAYER_4};
 
@@ -11,7 +11,7 @@ public class Player extends JLabel{
     public JLabel deck_backside_label;
     public JLabel num_cards_label;
 
-    //private ArrayList<Card> cards = new ArrayList<>();
+    public ArrayList<Card> cards = new ArrayList<>();
 
 /******************************************CONSTRUCTORS********************************************/
     
@@ -21,7 +21,6 @@ public class Player extends JLabel{
         image = new ImageIcon(resized);
         this.setIcon(image);
         this.setSize(Constants.PLAYER_IMAGE_WIDTH, Constants.PLAYER_IMAGE_HEIGHT);
-        //this.setVisible(true);
         initDeckLabels();
     }
 

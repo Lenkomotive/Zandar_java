@@ -69,6 +69,16 @@ public class Constants {
     public static final int CHARACTER_IMAGE_WIDTH = 200;
     public static final int CHARACTER_IMAGE_HEIGHT = 250;
 
-    public static final int PLAY_BUTTON_WIDTH = 400;
-    public static final int PLAY_BUTTON_HEIGHT = 150;
+    public static final int PLAYER_1_BUTTON_X = 340;
+    public static final int PLAYER_2_BUTTON_X = 580;
+    public static final int PLAYER_3_BUTTON_X = 820;
+    public static final int PLAYER_4_BUTTON_X = 1060;
+    public static final int PLAYER_BUTTON_Y = 300;
+
+    public static final int START_BUTTON_WIDTH = 400;
+    public static final int START_BUTTON_HEIGHT = 150;
+
+    public static final int START_BUTTON_X = 600;
+    public static final int START_BUTTON_Y = 600;
+
 }

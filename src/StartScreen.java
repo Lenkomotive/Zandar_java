@@ -86,9 +86,9 @@ public class StartScreen extends JPanel implements ActionListener{
 
     public void initStartButton() {
         ImageIcon start_btn_image = new ImageIcon("buttons/start.png");
-        Image resized = start_btn_image.getImage().getScaledInstance(Constants.PLAY_BUTTON_WIDTH, Constants.PLAY_BUTTON_HEIGHT, java.awt.Image.SCALE_SMOOTH);
+        Image resized = start_btn_image.getImage().getScaledInstance(Constants.START_BUTTON_WIDTH, Constants.START_BUTTON_HEIGHT, java.awt.Image.SCALE_SMOOTH);
         start_btn = new JButton(new ImageIcon(resized));
-        start_btn.setSize(Constants.PLAY_BUTTON_WIDTH, Constants.PLAY_BUTTON_HEIGHT);
+        start_btn.setSize(Constants.START_BUTTON_WIDTH, Constants.START_BUTTON_HEIGHT);
         start_btn.addActionListener(this);
     }
 

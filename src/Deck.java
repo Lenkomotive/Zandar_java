@@ -7,7 +7,7 @@ import java.awt.*;
 public class Deck{
 /******************************************MEMBER-VARIABLES****************************************/
   
-    public final ArrayList<Card> cards = new ArrayList<>();
+    public ArrayList<Card> cards = new ArrayList<>();
 
     public JLabel deck_backside_label;
     public JLabel num_cards_label;
@@ -21,10 +21,6 @@ public class Deck{
 
 /******************************************PUBLIC-METHODES*****************************************/
     
-    public ArrayList<Card> getCards() {
-        return cards;
-    }
-
     public Card getCard() {
         Card card = cards.get(cards.size() - 1);
         cards.remove(cards.size() - 1);
