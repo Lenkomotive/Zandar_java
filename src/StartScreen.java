@@ -1,4 +1,5 @@
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -6,28 +7,29 @@ public class StartScreen extends JPanel implements ActionListener{
 
 /******************************************MEMBER-VARIABLES****************************************/
     
+    public JLabel choose_player_label;
+
     public JButton start_btn;
     public JButton player_1_btn;
     public JButton player_2_btn;
     public JButton player_3_btn;
     public JButton player_4_btn;
 
-    private boolean start_game = false;
+    public boolean start_game = false;
     private PlayerType choosen_player = PlayerType.NONE;
+
+    //public LineBorder border = new LineBorder(new Color(200,170,0), 5);
 
 /******************************************CONSTRUCTORS********************************************/
     
     public StartScreen() {
+        this.setLayout(null);
         this.setBackground(new Color(Constants.RED, Constants.GREEN, Constants.BLUE));
         this.setVisible(true);
     }
 
 /******************************************PUBLIC-METHODES*****************************************/
     
-    public boolean getStartGame() {
-        return start_game;
-    }
-
     public PlayerType getChoosenPlayer() {
         return choosen_player;
     }
@@ -80,8 +82,7 @@ public class StartScreen extends JPanel implements ActionListener{
         resized = character_image.getImage().getScaledInstance(Constants.CHARACTER_IMAGE_WIDTH, Constants.CHARACTER_IMAGE_HEIGHT, java.awt.Image.SCALE_SMOOTH);
         player_4_btn = new JButton(new ImageIcon(resized));
         player_4_btn.setSize(Constants.CHARACTER_IMAGE_WIDTH, Constants.CHARACTER_IMAGE_HEIGHT);
-        player_4_btn.addActionListener(this);
-        
+        player_4_btn.addActionListener(this);        
     }
 
     public void initStartButton() {
@@ -91,6 +92,14 @@ public class StartScreen extends JPanel implements ActionListener{
         start_btn.setSize(Constants.START_BUTTON_WIDTH, Constants.START_BUTTON_HEIGHT);
         start_btn.addActionListener(this);
     }
+
+    public void initChoosePlayerLabel() {
+        ImageIcon choose_player = new ImageIcon("buttons/choose_player.png");
+        Image resized = choose_player.getImage().getScaledInstance(700, 80, java.awt.Image.SCALE_SMOOTH);
+        choose_player_label = new JLabel(new ImageIcon(resized));
+        choose_player_label.setSize(700, 80);
+    }
+
 
 /******************************************PRIVATE-METHODES****************************************/
 

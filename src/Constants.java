@@ -8,6 +8,8 @@ public class Constants {
     public static final int GREEN = 100;
     public static final int BLUE = 12;
 
+    public static final int SLEEP_BETWEEN_DEALING = 300;
+
     //!Player
     public static final int PLAYER_IMAGE_WIDTH = 150;
     public static final int PLAYER_IMAGE_HEIGHT = 180;
@@ -75,10 +77,24 @@ public class Constants {
     public static final int PLAYER_4_BUTTON_X = 1060;
     public static final int PLAYER_BUTTON_Y = 300;
 
-    public static final int START_BUTTON_WIDTH = 400;
-    public static final int START_BUTTON_HEIGHT = 150;
+    public static final int START_BUTTON_WIDTH = 340;
+    public static final int START_BUTTON_HEIGHT = 100;
 
-    public static final int START_BUTTON_X = 600;
-    public static final int START_BUTTON_Y = 600;
+    public static final int START_BUTTON_X = 630;
+    public static final int START_BUTTON_Y = 650;
+
+    public static final int CHOOSE_PLAYER_LABEL_X = 450;
+    public static final int CHOOSE_PLAYER_LABEL_Y = 100;
+
+    //!Board
+    public static final int CARDS_MOST_LEFT_POSITION = 400;
+
+    public static final int PLAYER_CARD_DISTANCE = 200;
+    public static final int BOARD_CARD_DISTANCE = 130;
+
+    public static final int PLAYER_CARD_Y = 800;
+    public static final int BOT_CARD_Y = 50;
+    public static final int BOARD_CARD_Y = 350;
+
 
 }

@@ -27,8 +27,8 @@ public class Card extends JLabel{
 
     Position position = Position.DOWN;
 
-    private static final int WIDTH = 80;
-    private static final int HEIGHT = 100;
+    private static final int WIDTH = 100;
+    private static final int HEIGHT = 120;
 
 /******************************************CONSTRUCTORS********************************************/
     

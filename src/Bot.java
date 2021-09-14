@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.util.*;
 
 import java.awt.*;
 
@@ -7,6 +8,8 @@ public class Bot extends JLabel{
        
     public JLabel deck_backside_label;
     public JLabel num_cards_label;
+
+    public ArrayList<Card> cards = new ArrayList<>();
 
 /******************************************CONSTRUCTORS********************************************/
   

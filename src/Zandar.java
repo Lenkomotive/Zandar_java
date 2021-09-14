@@ -8,8 +8,6 @@ public class Zandar {
     static Bot bot;
     static Player player;
     static Deck deck;
-
-    static int num_cards = Constants.TOTAL_CARDS;
     public static void main(String[] args) throws Exception {
         frame = new Frame();
         showStartScreen();
@@ -18,15 +16,13 @@ public class Zandar {
         initPlayer();
         initBot();
 
+        dealCards();
 
-        while(num_cards != 0) {
-
-        }
+        // while(num_cards != 0) {
+        // }
     
 
 
-        bot.num_cards_label.setText("69");
-        player.num_cards_label.setText("31");
 
     }
 
@@ -35,21 +31,24 @@ public class Zandar {
         frame.add(start_screen);
         start_screen.initPlayers();
         start_screen.initStartButton();
+        start_screen.initChoosePlayerLabel();
 
         start_screen.add(start_screen.start_btn);
         start_screen.add(start_screen.player_1_btn);
         start_screen.add(start_screen.player_2_btn);
         start_screen.add(start_screen.player_3_btn);
         start_screen.add(start_screen.player_4_btn);
+        start_screen.add(start_screen.choose_player_label);
 
         start_screen.start_btn.setLocation(Constants.START_BUTTON_X, Constants.START_BUTTON_Y);
         start_screen.player_1_btn.setLocation(Constants.PLAYER_1_BUTTON_X, Constants.PLAYER_BUTTON_Y);
         start_screen.player_2_btn.setLocation(Constants.PLAYER_2_BUTTON_X, Constants.PLAYER_BUTTON_Y);
         start_screen.player_3_btn.setLocation(Constants.PLAYER_3_BUTTON_X, Constants.PLAYER_BUTTON_Y);
         start_screen.player_4_btn.setLocation(Constants.PLAYER_4_BUTTON_X, Constants.PLAYER_BUTTON_Y);
+        start_screen.choose_player_label.setLocation(Constants.CHOOSE_PLAYER_LABEL_X, Constants.CHOOSE_PLAYER_LABEL_Y);
 
-        while(start_screen.getStartGame() != true) {
-            Thread.sleep(100);
+        while( !start_screen.start_game) {
+            Thread.sleep(50);
         }
         start_screen.setVisible(false);
     }
@@ -87,22 +86,45 @@ public class Zandar {
         deck.deck_backside_label.setLocation(Constants.DECK_POSITION_X, Constants.DECK_POSITION_Y);
     }
 
-    static void dealCards() {
-        // for(int i = 0; i < 8; i++) {
-        //     Card tmp = deck.getCard();
-        //     num_cards--;
-        //     deck.num_cards_label.setText(Integer.toString(num_cards));
-        // }
+    static void dealCards() throws InterruptedException{
+
+        int x = Constants.CARDS_MOST_LEFT_POSITION;
+        for(int num_card = 0; num_card < 8; num_card++) {
+            Card card = deck.getCard();
+            deck.num_cards_label.setText(Integer.toString(deck.cards.size()));
+            if(num_card % 2 == 0) { 
+                player.cards.add(card);
+                board.add(card);
+                card.setLocation(x, Constants.PLAYER_CARD_Y);
+            }
+            else { 
+                bot.cards.add(card);
+                board.add(card);
+                card.setLocation(x, Constants.BOT_CARD_Y);
+                x += Constants.PLAYER_CARD_DISTANCE;
+        }
+            Thread.sleep(Constants.SLEEP_BETWEEN_DEALING);
+        }
+
+        x = Constants.CARDS_MOST_LEFT_POSITION;
+        for(int i = 0; i < 8; i++) {
+            Card card = deck.getCard();
+            board.cards.add(card);
+            board.add(card);
+            deck.num_cards_label.setText(Integer.toString(deck.cards.size()));
+            card.setLocation(x, Constants.BOARD_CARD_Y);
+            x += Constants.BOARD_CARD_DISTANCE;
+            Thread.sleep(Constants.SLEEP_BETWEEN_DEALING);
+        }
+        x = Constants.CARDS_MOST_LEFT_POSITION;
+        for(int i = 0; i < 8; i++) {
+            Card card = deck.getCard();
+            board.cards.add(card);
+            board.add(card);
+            deck.num_cards_label.setText(Integer.toString(deck.cards.size()));
+            card.setLocation(x, 500);
+            x += Constants.BOARD_CARD_DISTANCE;
+            Thread.sleep(Constants.SLEEP_BETWEEN_DEALING);
+        }
     }
 }
-
-
-        // int schieben = 0;
-        // for(Card c: deck.getCards()) {
-        //     board.add(c);
-        //     c.setVisible(true);
-        //     c.setPosition(500 + schieben, 400);
-        //     schieben +=15;
-        //     Thread.sleep(150);
-        //     c.setVisible(false);
-        // }

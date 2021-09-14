@@ -1,7 +1,7 @@
 import javax.swing.*;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 
 enum PlayerType {NONE, PLAYER_1, PLAYER_2, PLAYER_3, PLAYER_4};
 
@@ -27,6 +27,10 @@ public class Player extends JLabel{
 
 /******************************************PUBLIC-METHODES*****************************************/
     
+
+
+/******************************************PRIVATE-METHODES****************************************/
+    
     private void initDeckLabels() {
         deck_backside_label = new JLabel();
         ImageIcon image = new ImageIcon("cards/backside_deck.png");
@@ -39,8 +43,5 @@ public class Player extends JLabel{
         num_cards_label.setFont(new Font("Comic Sans",Font.BOLD, Constants.PLAYER_NUM_CARD_FONT_SIZE));
         num_cards_label.setSize(Constants.PLAYER_NUM_CARD_WIDTH, Constants.PLAYER_NUM_CARD_HEIGHT);
     }
-
-/******************************************PRIVATE-METHODES****************************************/
-
 }
 

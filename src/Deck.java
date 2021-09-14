@@ -48,7 +48,7 @@ public class Deck{
         deck_backside_label.setSize(Constants.DECK_DECK_WIDTH, Constants.DECK_DECK_HEIGHT);
 
         num_cards_label = new JLabel("52");
-        num_cards_label.setFont(new Font("Comic Sans",Font.BOLD, Constants.DECK_NUM_CARD_FONT_SIZE));
+        num_cards_label.setFont(new Font("Arial", Font.BOLD, Constants.DECK_NUM_CARD_FONT_SIZE));
         num_cards_label.setSize(Constants.DECK_NUM_CARD_WIDTH, Constants.DECK_NUM_CARD_HEIGHT);
     }
 }
