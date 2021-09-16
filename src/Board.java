@@ -14,6 +14,8 @@ public class Board extends JPanel implements ActionListener{
     public JButton put_btn;
     public JButton take_btn;
 
+    public JButton log;
+
     public PlayMove current_move = PlayMove.NONE;
 
 /******************************************CONSTRUCTORS********************************************/

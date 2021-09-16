@@ -13,6 +13,8 @@ public class Player extends JLabel{
 
     public ArrayList<Card> cards = new ArrayList<>();
 
+    public Card card_to_play = null;
+
 /******************************************CONSTRUCTORS********************************************/
     
     public Player(PlayerType player) {
@@ -26,21 +28,24 @@ public class Player extends JLabel{
 
 
 /******************************************PUBLIC-METHODES*****************************************/
-    public Card getCardToPut() {
-        Card card_to_put = null;
+    public void chooseCard() {
         for(Card card: cards) {
             if(card.state == State.ACTIVE_PLAYER_CARD) {
-                card_to_put = card;
+                card_to_play = card;
                 break;
             }
         }
-        if(card_to_put != null) {
-            card_to_put.setVisible(false);
-            cards.remove(card_to_put);
-        }
-        return card_to_put;
     }
 
+    public Card putCard() {
+        Card card_to_put = card_to_play;
+        card_to_play.state = State.INACTIVE;
+        card_to_play.type = CardType.BOARD_CARD;
+        card_to_play.setVisible(false);
+        cards.remove(card_to_play);
+        card_to_play = null;
+        return card_to_put;
+    }
 
 /******************************************PRIVATE-METHODES****************************************/
     

@@ -8,6 +8,9 @@ public class Constants {
     public static final int GREEN = 100;
     public static final int BLUE = 12;
 
+    public static final int NUM_CARDS_IN_HAND = 4;
+    public static final int NUM_CARDS_ON_BOARD = 4;
+
     public static final int SLEEP_BETWEEN_DEALING = 200;
 
     //!Player

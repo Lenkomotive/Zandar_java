@@ -1,5 +1,5 @@
-public class Zandar {
 
+public class Game {
     static Frame frame;
     static StartScreen start_screen;
     static Board board;
@@ -10,7 +10,6 @@ public class Zandar {
 
     static int next_board_card_x;
 
-
     static ActivePlayer active_player = ActivePlayer.NONE;
     public static void main(String[] args) throws Exception {
         frame = new Frame();
@@ -18,9 +17,10 @@ public class Zandar {
         showBoard();
         active_player = ActivePlayer.PLAYER;
         
+        dealPlayerCards();
+        dealBoardCards();
+        
         while(deck.cards.size() != 0) {
-            dealPlayerCards();
-            dealBoardCards();
             executeAction();
 
 
@@ -101,7 +101,7 @@ public class Zandar {
 
         int X = Constants.CARDS_MOST_LEFT_POSITION;
 
-        for(int num_card = 0, dealt_cards = 1; num_card < 8; num_card++, dealt_cards++) {
+        for(int num_card = 0, dealt_cards = 1, bot_card = 0; num_card < 8; num_card++, dealt_cards++) {
             Card card = deck.getCard();
             deck.num_cards_label.setText(Integer.toString(deck.cards.size()));
             if(num_card % 2 == active_player.ordinal()) {
@@ -112,8 +112,9 @@ public class Zandar {
             }
             else { 
                 bot.cards.add(card);
-                board.add(card);
-                card.setLocation(X, Constants.BOT_CARD_Y);
+                board.add(bot.card_backside[bot_card]);
+                bot.card_backside[bot_card].setLocation(X, Constants.BOT_CARD_Y);
+                bot_card++;
             }
             X = dealt_cards == 2? X += Constants.PLAYER_CARD_DISTANCE : X; 
             dealt_cards = dealt_cards == 2 ? 0: dealt_cards;
@@ -124,7 +125,7 @@ public class Zandar {
 
     static void dealBoardCards() throws InterruptedException {
         int X = Constants.CARDS_MOST_LEFT_POSITION;
-        for(int i = 0; i < 4; i++) {
+        for(int num_card = 0; num_card < Constants.NUM_CARDS_ON_BOARD; num_card++) {
             Card card = deck.getCard();
             card.type = CardType.BOARD_CARD;
             board.cards.add(card);
@@ -135,10 +136,15 @@ public class Zandar {
             Thread.sleep(Constants.SLEEP_BETWEEN_DEALING);
         }
         next_board_card_x = X;
-
     }
 
     static void executeAction() throws InterruptedException{
+
+        while(player.card_to_play == null) {
+            player.chooseCard();
+            board.current_move = PlayMove.NONE;
+            Thread.sleep(50);
+        }
 
         while(board.current_move == PlayMove.NONE) {
             Thread.sleep(50);
@@ -146,19 +152,17 @@ public class Zandar {
 
         switch (board.current_move) {
             case PUT:
-
-                Card card_to_put = player.getCardToPut();
-                card_to_put.type = CardType.BOARD_CARD;
+                Card card_to_put = player.putCard();
                 board.cards.add(card_to_put);
                 board.add(card_to_put);
                 card_to_put.setLocation(next_board_card_x, Constants.BOARD_CARD_Y);
                 next_board_card_x += Constants.BOARD_CARD_DISTANCE;
                 card_to_put.setVisible(true);
-
- 
                 board.current_move = PlayMove.NONE;
                 break;
-        
+            case TAKE:
+                board.current_move = PlayMove.NONE;
+                player.card_to_play = null;
             default:
                 break;
         }
