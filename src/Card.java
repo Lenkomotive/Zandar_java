@@ -1,19 +1,22 @@
 import javax.swing.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import javax.swing.border.*;
 
+import java.awt.event.*;
 import java.awt.*;
 
-enum CardType {CLUB, DIAMOND, HEART, SPADE};
-enum Position {UP, DOWN};
+enum CardSuit {CLUB, DIAMOND, HEART, SPADE};
+enum State {INACTIVE, ACTIVE_PLAYER_CARD, ACTIVE_BOARD_CARD};
+enum CardType{PLAYER_CARD, BOARD_CARD};
 
 public class Card extends JLabel{
 
 /******************************************MEMBER-VARIABLES****************************************/
 
-    private CardType card_type;
+    private CardSuit suit;
+    public CardType type;
+    public State state = State.INACTIVE;
 
-    private int value;
+    public int value;
 
     public final String PATH_CLUB = "_of_clubs";
     public final String PATH_DIAMOND = "_of_diamonds";
@@ -22,42 +25,36 @@ public class Card extends JLabel{
     public final String PATH = "cards/";
     public final String PATH_END = ".png";
     
-    static int pos_x = 0;
-    static int pos_y = 0;
-
-    Position position = Position.DOWN;
-
-    private static final int WIDTH = 80;
-    private static final int HEIGHT = 100;
+    public Border border = new LineBorder(new Color(200,170,0), 5);
 
 /******************************************CONSTRUCTORS********************************************/
-    public Card(CardType type, int value) {
-        this.card_type = type;
+    
+public Card(CardSuit type, int value) {
+        this.suit = type;
         this.value = value;
         
         ImageIcon image = new ImageIcon(getPath());
-        Image resized = image.getImage().getScaledInstance(WIDTH, HEIGHT,  java.awt.Image.SCALE_SMOOTH);
+        Image resized = image.getImage().getScaledInstance(Constants.CARD_WIDTH, Constants.CARD_HEIGHT,  java.awt.Image.SCALE_SMOOTH);
         image = new ImageIcon(resized);
         this.setIcon(image);
-        this.setSize(WIDTH, HEIGHT);
+        this.setSize(Constants.CARD_WIDTH + 10, Constants.CARD_HEIGHT + 10);
 
         this.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent me) {
                 doOnClick();
             }           
           });
-
     }
 
 /******************************************PUBLIC-METHODES*****************************************/
-    public int getValue() {
-        return value;
-    }
+    
 
+    
 /******************************************PRIVATE-METHODES****************************************/
+   
     private String getPath() {
         String path = PATH;
-        switch (card_type) {
+        switch (suit) {
             case CLUB:
                 path += this.value + PATH_CLUB + PATH_END;
                 break;
@@ -74,27 +71,30 @@ public class Card extends JLabel{
         return path;
     }
     
-/******************************************PUBLIC-METHODES*****************************************/
-    public void setPosition(int x, int y) {
-        this.setLocation(x, y);
-    }
-
-
-    public void floatCard() throws InterruptedException {
-        for(int i = 0; i < 300; i++) {
-            this.setLocation(0+5*i, 300);
-            Thread.sleep(20);
-        }
-    }
-
     private void doOnClick() {
-        if(this.position == Position.DOWN) {
-            setPosition(500, 190);
-            position = Position.UP;
+        switch (type) {
+            case PLAYER_CARD:
+                if(this.state == State.INACTIVE) {
+                    this.setLocation(this.getLocation().x, this.getLocation().y - 20);
+                    state = State.ACTIVE_PLAYER_CARD;
+                }
+                else {
+                    this.setLocation(this.getLocation().x, this.getLocation().y + 20);
+                    state = State.INACTIVE;
+                }
+                break;
+            case BOARD_CARD:
+                if(this.state == State.INACTIVE) {
+                    this.setBorder(border);
+                    state = State.ACTIVE_BOARD_CARD;
+                }
+                else {
+                    this.setBorder(null);
+                    state = State.INACTIVE;
+                }
+            default:
+                break;
         }
-        else {
-            setPosition(500, 200);
-            position = Position.DOWN;
-        }
+
     }
 }

@@ -1,19 +1,62 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.*;
+import java.awt.event.*;
+import javax.swing.border.*;
 
-public class Board extends JPanel{
+
+enum PlayMove {PUT, TAKE, NONE};
+enum ActivePlayer {PLAYER, BOT, NONE};
+
+public class Board extends JPanel implements ActionListener{
 /******************************************MEMBER-VARIABLES****************************************/
-    private int R = 12;
-    private int G = 100;
-    private int B = 12;
+    public ArrayList<Card> cards = new ArrayList<>();
+
+    public JButton put_btn;
+    public JButton take_btn;
+
+    public JButton log;
+
+    public PlayMove current_move = PlayMove.NONE;
+    public Border border = new LineBorder(new Color(200,170,0), 5);
 
 /******************************************CONSTRUCTORS********************************************/
     public Board() {
         this.setLayout(null);
-        this.setBackground(new Color(R,G,B));
+        this.setBackground(Constants.GREEN);
     }
 
 /******************************************PUBLIC-METHODES*****************************************/
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        if(e.getSource() == put_btn) {
+            current_move = PlayMove.PUT;
+        }
+        if(e.getSource() == take_btn) {
+            current_move = PlayMove.TAKE;
+        }
+    }
+
+    public void initButtons() {
+        ImageIcon image = new ImageIcon("buttons/put.png");
+        Image resized = image.getImage().getScaledInstance(100, 60, java.awt.Image.SCALE_SMOOTH);
+        put_btn = new JButton(new ImageIcon(resized));
+        put_btn.setSize(110, 70);
+        put_btn.addActionListener(this);
+        put_btn.setBackground(Color.black);
+        put_btn.addActionListener(this);
+
+        image = new ImageIcon("buttons/take.png");
+        resized = image.getImage().getScaledInstance(120, 60, java.awt.Image.SCALE_SMOOTH);
+        take_btn = new JButton(new ImageIcon(resized));
+        take_btn.setSize(130, 70);
+        take_btn.setBackground(Color.black);
+        take_btn.addActionListener(this);
+    }
+
+
+/******************************************PRIVATE-METHODES****************************************/
 
 }

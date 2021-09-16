@@ -1,36 +1,36 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
+import javax.swing.border.*;
 
 public class StartScreen extends JPanel implements ActionListener{
 
 /******************************************MEMBER-VARIABLES****************************************/
-    ArrayList<JButton> character_buttons = new ArrayList<>();
-    JButton play_btn;
+    
+    public JLabel choose_player_label;
 
-    private boolean start_game = false;
+    public JButton start_btn;
+    public JButton player_1_btn;
+    public JButton player_2_btn;
+    public JButton player_3_btn;
+    public JButton player_4_btn;
+
+    public boolean start_game = false;
     private PlayerType choosen_player = PlayerType.NONE;
 
-    private int R = 12;
-    private int G = 100;
-    private int B = 12;
+    public Border border = new LineBorder(Constants.GOLD, 8);
 
-    private static final int IMAGE_WIDTH = 200;
-    private static final int IMAGE_HEIGHT = 250;
-    private static final int NUM_PLAYERS = 4;
 
 /******************************************CONSTRUCTORS********************************************/
+    
     public StartScreen() {
-        this.setBackground(new Color(R,G,B));
+        this.setLayout(null);
+        this.setBackground(Constants.GREEN);
         this.setVisible(true);
     }
 
 /******************************************PUBLIC-METHODES*****************************************/
-    public boolean getStartGame() {
-        return start_game;
-    }
-
+    
     public PlayerType getChoosenPlayer() {
         return choosen_player;
     }
@@ -38,56 +38,87 @@ public class StartScreen extends JPanel implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		if(e.getSource() == character_buttons.get(0)) {
+		if(e.getSource() == player_1_btn) {
+            unsetAllBorders();
             choosen_player = PlayerType.PLAYER_1;
+            player_1_btn.setBorder(border);
 		}
-        if(e.getSource() == character_buttons.get(1)) {
+        if(e.getSource() == player_2_btn) {
+            unsetAllBorders();
             choosen_player = PlayerType.PLAYER_2;
+            player_2_btn.setBorder(border);
 		}
-        if(e.getSource() == character_buttons.get(2)) {
+        if(e.getSource() == player_3_btn) {
+            unsetAllBorders();
             choosen_player = PlayerType.PLAYER_3;
+            player_3_btn.setBorder(border);
 		}
-        if(e.getSource() == character_buttons.get(3)) {
+        if(e.getSource() == player_4_btn) {
+            unsetAllBorders();
             choosen_player = PlayerType.PLAYER_4;
+            player_4_btn.setBorder(border);
 		}
-        if(e.getSource() == play_btn) {
-            if(choosen_player == PlayerType.NONE) {
-                System.out.println("CHOOSE A PLAYER!");
-                //!TODO make this a label!
-            }
-            else {
+        if(e.getSource() == start_btn) {
+            if(choosen_player != PlayerType.NONE) {
                 start_game = true;
             }
 		}
 	}
-/******************************************PUBLIC-METHODES*****************************************/
-    public void addPlayers() {
-        for(int player = 1; player < NUM_PLAYERS + 1; player++) {
-            ImageIcon character_image = new ImageIcon("players/player" + player + ".png");
-            Image resized = character_image.getImage().getScaledInstance(IMAGE_WIDTH, IMAGE_HEIGHT, java.awt.Image.SCALE_SMOOTH);
-            character_image = new ImageIcon(resized);
-            JButton character_btn = new JButton(character_image);
-            character_btn.setBounds(100 + player *210,100, IMAGE_WIDTH, IMAGE_HEIGHT);
-            //character_btn.setVisible(true);
-            //!TODO Border emptyBorder = BorderFactory.createEmptyBorder();
-            character_btn.addActionListener(this);
-            character_buttons.add(character_btn);
-            this.add(character_btn);
-        }
+
+    public void initPlayers() {
+        ImageIcon character_image = new ImageIcon("players/player1.png");
+        Image resized = character_image.getImage().getScaledInstance(Constants.CHARACTER_IMAGE_WIDTH, Constants.CHARACTER_IMAGE_HEIGHT, java.awt.Image.SCALE_SMOOTH);
+        player_1_btn = new JButton(new ImageIcon(resized));
+        player_1_btn.setSize(Constants.CHARACTER_IMAGE_WIDTH + Constants.CHARACTER_IMAGE_BORDER, Constants.CHARACTER_IMAGE_HEIGHT + Constants.CHARACTER_IMAGE_BORDER);
+        player_1_btn.addActionListener(this);
+        player_1_btn.setBackground(Color.BLACK);
+
+        character_image = new ImageIcon("players/player2.png");
+        resized = character_image.getImage().getScaledInstance(Constants.CHARACTER_IMAGE_WIDTH, Constants.CHARACTER_IMAGE_HEIGHT, java.awt.Image.SCALE_SMOOTH);
+        player_2_btn = new JButton(new ImageIcon(resized));
+        player_2_btn.setSize(Constants.CHARACTER_IMAGE_WIDTH + Constants.CHARACTER_IMAGE_BORDER, Constants.CHARACTER_IMAGE_HEIGHT + Constants.CHARACTER_IMAGE_BORDER);
+        player_2_btn.addActionListener(this);
+        player_2_btn.setBackground(Color.BLACK);
+
+        character_image = new ImageIcon("players/player3.png");
+        resized = character_image.getImage().getScaledInstance(Constants.CHARACTER_IMAGE_WIDTH, Constants.CHARACTER_IMAGE_HEIGHT, java.awt.Image.SCALE_SMOOTH);
+        player_3_btn = new JButton(new ImageIcon(resized));
+        player_3_btn.setSize(Constants.CHARACTER_IMAGE_WIDTH + Constants.CHARACTER_IMAGE_BORDER, Constants.CHARACTER_IMAGE_HEIGHT + Constants.CHARACTER_IMAGE_BORDER);
+        player_3_btn.addActionListener(this);
+        player_3_btn.setBackground(Color.BLACK);
+
+        character_image = new ImageIcon("players/player4.png");
+        resized = character_image.getImage().getScaledInstance(Constants.CHARACTER_IMAGE_WIDTH, Constants.CHARACTER_IMAGE_HEIGHT, java.awt.Image.SCALE_SMOOTH);
+        player_4_btn = new JButton(new ImageIcon(resized));
+        player_4_btn.setSize(Constants.CHARACTER_IMAGE_WIDTH + Constants.CHARACTER_IMAGE_BORDER, Constants.CHARACTER_IMAGE_HEIGHT + Constants.CHARACTER_IMAGE_BORDER);
+        player_4_btn.addActionListener(this);        
+        player_4_btn.setBackground(Color.BLACK);
     }
 
-    public void addPlayButton() {
-        ImageIcon play_btn_image = new ImageIcon("buttons/play.png");
-        Image resized = play_btn_image.getImage().getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH);
-        play_btn = new JButton(new ImageIcon(resized));
-        play_btn.setBounds(1400,800, 150, 150);
-       // play_btn.setVisible(true);
-        play_btn.addActionListener(this);
-        this.add(play_btn);
+    public void initStartButton() {
+        ImageIcon start_btn_image = new ImageIcon("buttons/start.png");
+        Image resized = start_btn_image.getImage().getScaledInstance(Constants.START_BUTTON_WIDTH, Constants.START_BUTTON_HEIGHT, java.awt.Image.SCALE_SMOOTH);
+        start_btn = new JButton(new ImageIcon(resized));
+        start_btn.setSize(Constants.START_BUTTON_WIDTH + Constants.START_BUTTON_BORDER, Constants.START_BUTTON_HEIGHT + Constants.START_BUTTON_BORDER);
+        start_btn.setBackground(Color.BLACK);
+        start_btn.addActionListener(this);
+    }
+
+    public void initChoosePlayerLabel() {
+        ImageIcon choose_player = new ImageIcon("buttons/choose_player.png");
+        Image resized = choose_player.getImage().getScaledInstance(Constants.CHOOSE_PLAYER_LABEL_WIDTH, Constants.CHOOSE_PLAYER_LABEL_HEIGHT, java.awt.Image.SCALE_SMOOTH);
+        choose_player_label = new JLabel(new ImageIcon(resized));
+        choose_player_label.setSize(Constants.CHOOSE_PLAYER_LABEL_WIDTH, Constants.CHOOSE_PLAYER_LABEL_HEIGHT);
     }
 
 
-
+/******************************************PRIVATE-METHODES****************************************/
+    private void unsetAllBorders() {
+        player_1_btn.setBorder(null);
+        player_2_btn.setBorder(null);
+        player_3_btn.setBorder(null);
+        player_4_btn.setBorder(null);
+    }
 }
 
 
