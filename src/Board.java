@@ -3,6 +3,10 @@ import java.awt.*;
 import java.util.*;
 import java.awt.event.*;
 
+
+enum PlayMove {PUT, TAKE, NONE};
+enum ActivePlayer {PLAYER, BOT, NONE};
+
 public class Board extends JPanel implements ActionListener{
 /******************************************MEMBER-VARIABLES****************************************/
     public ArrayList<Card> cards = new ArrayList<>();
@@ -10,6 +14,7 @@ public class Board extends JPanel implements ActionListener{
     public JButton put_btn;
     public JButton take_btn;
 
+    public PlayMove current_move = PlayMove.NONE;
 
 /******************************************CONSTRUCTORS********************************************/
     public Board() {
@@ -23,11 +28,10 @@ public class Board extends JPanel implements ActionListener{
     public void actionPerformed(ActionEvent e) {
 
         if(e.getSource() == put_btn) {
-            System.out.println("put");
+            current_move = PlayMove.PUT;
         }
         if(e.getSource() == take_btn) {
-            System.out.println("take");
-
+            current_move = PlayMove.TAKE;
         }
     }
 

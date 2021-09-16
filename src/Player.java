@@ -26,7 +26,20 @@ public class Player extends JLabel{
 
 
 /******************************************PUBLIC-METHODES*****************************************/
-    
+    public Card getCardToPut() {
+        Card card_to_put = null;
+        for(Card card: cards) {
+            if(card.state == State.ACTIVE_PLAYER_CARD) {
+                card_to_put = card;
+                break;
+            }
+        }
+        if(card_to_put != null) {
+            card_to_put.setVisible(false);
+            cards.remove(card_to_put);
+        }
+        return card_to_put;
+    }
 
 
 /******************************************PRIVATE-METHODES****************************************/

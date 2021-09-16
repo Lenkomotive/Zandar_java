@@ -2,16 +2,17 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 
-enum CardType {CLUB, DIAMOND, HEART, SPADE};
-enum State {INACTIVE, ACTIVE};
+enum CardSuit {CLUB, DIAMOND, HEART, SPADE};
+enum State {INACTIVE, ACTIVE_PLAYER_CARD, ACTIVE_BOARD_CARD};
+enum CardType{PLAYER_CARD, BOARD_CARD};
 
 public class Card extends JLabel{
 
 /******************************************MEMBER-VARIABLES****************************************/
 
-    private CardType card_type;
-
-    public boolean is_player_card = false;
+    private CardSuit suit;
+    public CardType type;
+    public State state = State.INACTIVE;
 
     public int value;
 
@@ -22,12 +23,11 @@ public class Card extends JLabel{
     public final String PATH = "cards/";
     public final String PATH_END = ".png";
     
-    State state = State.INACTIVE;
 
 /******************************************CONSTRUCTORS********************************************/
     
-public Card(CardType type, int value) {
-        this.card_type = type;
+public Card(CardSuit type, int value) {
+        this.suit = type;
         this.value = value;
         
         ImageIcon image = new ImageIcon(getPath());
@@ -51,7 +51,7 @@ public Card(CardType type, int value) {
    
     private String getPath() {
         String path = PATH;
-        switch (card_type) {
+        switch (suit) {
             case CLUB:
                 path += this.value + PATH_CLUB + PATH_END;
                 break;
@@ -69,15 +69,29 @@ public Card(CardType type, int value) {
     }
     
     private void doOnClick() {
-        if(is_player_card) {
-            if(this.state == State.INACTIVE) {
-                this.setLocation(this.getLocation().x, this.getLocation().y - 20);
-                state = State.ACTIVE;
-            }
-            else {
-                this.setLocation(this.getLocation().x, this.getLocation().y + 20);
-                state = State.INACTIVE;
-            }
+        switch (type) {
+            case PLAYER_CARD:
+                if(this.state == State.INACTIVE) {
+                    this.setLocation(this.getLocation().x, this.getLocation().y - 20);
+                    state = State.ACTIVE_PLAYER_CARD;
+                }
+                else {
+                    this.setLocation(this.getLocation().x, this.getLocation().y + 20);
+                    state = State.INACTIVE;
+                }
+                break;
+            case BOARD_CARD:
+                if(this.state == State.INACTIVE) {
+                    this.setLocation(this.getLocation().x, this.getLocation().y - 10);
+                    state = State.ACTIVE_BOARD_CARD;
+                }
+                else {
+                    this.setLocation(this.getLocation().x, this.getLocation().y + 10);
+                    state = State.INACTIVE;
+                }
+            default:
+                break;
         }
+
     }
 }

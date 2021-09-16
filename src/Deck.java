@@ -31,10 +31,10 @@ public class Deck{
     
     private void initDeck() {
         for(int value = 1; value <= 13; value++) {
-            cards.add(new Card(CardType.CLUB, value));
-            cards.add(new Card(CardType.DIAMOND, value));
-            cards.add(new Card(CardType.HEART, value));
-            cards.add(new Card(CardType.SPADE, value));
+            cards.add(new Card(CardSuit.CLUB, value));
+            cards.add(new Card(CardSuit.DIAMOND, value));
+            cards.add(new Card(CardSuit.HEART, value));
+            cards.add(new Card(CardSuit.SPADE, value));
         }
         Collections.shuffle(cards);
     }
