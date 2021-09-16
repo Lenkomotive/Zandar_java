@@ -14,15 +14,11 @@ public class Zandar {
         frame = new Frame();
         showStartScreen();
         showBoard();
-        initDeck();
-        initPlayer();
-        initBot();
-        active_player = ActivePlayer.PLAYER;
+        active_player = ActivePlayer.BOT;
         
         dealCards();
 
 
-        active_player = active_player == ActivePlayer.PLAYER? ActivePlayer.BOT : active_player;
 
     }
 
@@ -56,6 +52,15 @@ public class Zandar {
     static void showBoard() {
         board = new Board();
         frame.add(board);
+        board.initButtons();
+        initDeck();
+        initPlayer();
+        initBot();
+        board.add(board.put_btn);
+        board.add(board.take_btn);
+
+        board.put_btn.setLocation(1200,830);
+        board.take_btn.setLocation(1400,830);
     }
 
     static void initPlayer() {
@@ -93,7 +98,8 @@ public class Zandar {
         for(int num_card = 0, dealt_cards = 1; num_card < 8; num_card++, dealt_cards++) {
             Card card = deck.getCard();
             deck.num_cards_label.setText(Integer.toString(deck.cards.size()));
-            if(num_card % 2 == active_player.ordinal()) { 
+            if(num_card % 2 == active_player.ordinal()) {
+                card.is_player_card = true;
                 player.cards.add(card);
                 board.add(card);
                 card.setLocation(X, Constants.PLAYER_CARD_Y);

@@ -11,6 +11,8 @@ public class Card extends JLabel{
 
     private CardType card_type;
 
+    public boolean is_player_card = false;
+
     public int value;
 
     public final String PATH_CLUB = "_of_clubs";
@@ -67,13 +69,15 @@ public Card(CardType type, int value) {
     }
     
     private void doOnClick() {
-        if(this.state == State.INACTIVE) {
-            this.setLocation(this.getLocation().x, this.getLocation().y - 20);
-            state = State.ACTIVE;
-        }
-        else {
-            this.setLocation(this.getLocation().x, this.getLocation().y + 20);
-            state = State.INACTIVE;
+        if(is_player_card) {
+            if(this.state == State.INACTIVE) {
+                this.setLocation(this.getLocation().x, this.getLocation().y - 20);
+                state = State.ACTIVE;
+            }
+            else {
+                this.setLocation(this.getLocation().x, this.getLocation().y + 20);
+                state = State.INACTIVE;
+            }
         }
     }
 }
