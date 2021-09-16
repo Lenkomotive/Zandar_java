@@ -8,7 +8,8 @@ public class Game {
     static Player player;
     static Deck deck;
 
-    static int next_board_card_x;
+    static int current_X_board = Constants.CARDS_MOST_LEFT_POSITION;
+    static int current_Y_board = Constants.BOARD_UPPER_CARD_Y;
 
     static ActivePlayer active_player = ActivePlayer.NONE;
     public static void main(String[] args) throws Exception {
@@ -65,8 +66,8 @@ public class Game {
         board.add(board.put_btn);
         board.add(board.take_btn);
 
-        board.put_btn.setLocation(1200,830);
-        board.take_btn.setLocation(1400,830);
+        board.put_btn.setLocation(1150,830);
+        board.take_btn.setLocation(1300,830);
     }
 
     static void initPlayer() {
@@ -124,18 +125,16 @@ public class Game {
     }
 
     static void dealBoardCards() throws InterruptedException {
-        int X = Constants.CARDS_MOST_LEFT_POSITION;
         for(int num_card = 0; num_card < Constants.NUM_CARDS_ON_BOARD; num_card++) {
             Card card = deck.getCard();
             card.type = CardType.BOARD_CARD;
             board.cards.add(card);
             board.add(card);
             deck.num_cards_label.setText(Integer.toString(deck.cards.size()));
-            card.setLocation(X, Constants.BOARD_CARD_Y);
-            X += Constants.BOARD_CARD_DISTANCE;
+            card.setLocation(current_X_board, Constants.BOARD_UPPER_CARD_Y);
+            current_X_board += Constants.BOARD_CARD_DISTANCE;
             Thread.sleep(Constants.SLEEP_BETWEEN_DEALING);
         }
-        next_board_card_x = X;
     }
 
     static void executeAction() throws InterruptedException{
@@ -155,8 +154,9 @@ public class Game {
                 Card card_to_put = player.putCard();
                 board.cards.add(card_to_put);
                 board.add(card_to_put);
-                card_to_put.setLocation(next_board_card_x, Constants.BOARD_CARD_Y);
-                next_board_card_x += Constants.BOARD_CARD_DISTANCE;
+                card_to_put.setLocation(current_X_board, current_Y_board);
+                current_X_board = board.cards.size() % Constants.MAX_CARDS_PER_ROW == 0? Constants.CARDS_MOST_LEFT_POSITION : current_X_board + Constants.BOARD_CARD_DISTANCE;
+                current_Y_board = board.cards.size() >= Constants.MAX_CARDS_PER_ROW ? Constants.BOARD_LOWER_CARD_Y: Constants.BOARD_UPPER_CARD_Y; 
                 card_to_put.setVisible(true);
                 board.current_move = PlayMove.NONE;
                 break;

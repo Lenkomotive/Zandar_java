@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.border.*;
+
 import java.awt.event.*;
 import java.awt.*;
 
@@ -23,6 +25,7 @@ public class Card extends JLabel{
     public final String PATH = "cards/";
     public final String PATH_END = ".png";
     
+    public Border border = new LineBorder(new Color(200,170,0), 5);
 
 /******************************************CONSTRUCTORS********************************************/
     
@@ -34,7 +37,7 @@ public Card(CardSuit type, int value) {
         Image resized = image.getImage().getScaledInstance(Constants.CARD_WIDTH, Constants.CARD_HEIGHT,  java.awt.Image.SCALE_SMOOTH);
         image = new ImageIcon(resized);
         this.setIcon(image);
-        this.setSize(Constants.CARD_WIDTH, Constants.CARD_HEIGHT);
+        this.setSize(Constants.CARD_WIDTH + 10, Constants.CARD_HEIGHT + 10);
 
         this.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent me) {
@@ -82,11 +85,11 @@ public Card(CardSuit type, int value) {
                 break;
             case BOARD_CARD:
                 if(this.state == State.INACTIVE) {
-                    this.setLocation(this.getLocation().x, this.getLocation().y - 10);
+                    this.setBorder(border);
                     state = State.ACTIVE_BOARD_CARD;
                 }
                 else {
-                    this.setLocation(this.getLocation().x, this.getLocation().y + 10);
+                    this.setBorder(null);
                     state = State.INACTIVE;
                 }
             default:

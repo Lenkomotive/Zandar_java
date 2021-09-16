@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 import java.awt.event.*;
+import javax.swing.border.*;
 
 
 enum PlayMove {PUT, TAKE, NONE};
@@ -17,11 +18,12 @@ public class Board extends JPanel implements ActionListener{
     public JButton log;
 
     public PlayMove current_move = PlayMove.NONE;
+    public Border border = new LineBorder(new Color(200,170,0), 5);
 
 /******************************************CONSTRUCTORS********************************************/
     public Board() {
         this.setLayout(null);
-        this.setBackground(new Color(Constants.RED, Constants.GREEN, Constants.BLUE));
+        this.setBackground(Constants.GREEN);
     }
 
 /******************************************PUBLIC-METHODES*****************************************/
@@ -39,15 +41,18 @@ public class Board extends JPanel implements ActionListener{
 
     public void initButtons() {
         ImageIcon image = new ImageIcon("buttons/put.png");
-        Image resized = image.getImage().getScaledInstance(120, 70, java.awt.Image.SCALE_SMOOTH);
+        Image resized = image.getImage().getScaledInstance(100, 60, java.awt.Image.SCALE_SMOOTH);
         put_btn = new JButton(new ImageIcon(resized));
-        put_btn.setSize(120, 70);
+        put_btn.setSize(110, 70);
+        put_btn.addActionListener(this);
+        put_btn.setBackground(Color.black);
         put_btn.addActionListener(this);
 
         image = new ImageIcon("buttons/take.png");
-        resized = image.getImage().getScaledInstance(150, 70, java.awt.Image.SCALE_SMOOTH);
+        resized = image.getImage().getScaledInstance(120, 60, java.awt.Image.SCALE_SMOOTH);
         take_btn = new JButton(new ImageIcon(resized));
-        take_btn.setSize(150, 70);
+        take_btn.setSize(130, 70);
+        take_btn.setBackground(Color.black);
         take_btn.addActionListener(this);
     }
 

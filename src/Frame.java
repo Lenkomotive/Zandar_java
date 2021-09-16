@@ -4,7 +4,7 @@ public class Frame extends JFrame{
 /******************************************MEMBER-VARIABLES****************************************/
     
     private static final int WIDTH = 1000;
-    private static final int HEIGHT = 1600;
+    private static final int HEIGHT = 1500;
     
 /******************************************CONSTRUCTORS********************************************/
     
