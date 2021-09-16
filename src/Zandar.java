@@ -19,19 +19,8 @@ public class Zandar {
         initBot();
         active_player = ActivePlayer.PLAYER;
         
-        while(deck.cards.size() != 0) {
-            dealCards();
+        dealCards();
 
-            switch (active_player) {
-                case PLAYER:
-                    chooseAction();
-                    break;
-                case BOT:
-                    break;
-                default:
-                    break;            
-            }
-        }
 
         active_player = active_player == ActivePlayer.PLAYER? ActivePlayer.BOT : active_player;
 
