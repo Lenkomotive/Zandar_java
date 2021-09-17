@@ -18,8 +18,7 @@ public class Board extends JPanel implements ActionListener{
     public JLabel log;
 
     public PlayMove current_move = PlayMove.NONE;
-    public Border border = new LineBorder(new Color(200,170,0), 5);
-    public Border log_border = new LineBorder(Color.black, 3);
+  
 
 /******************************************CONSTRUCTORS********************************************/
     public Board() {
@@ -75,27 +74,28 @@ public class Board extends JPanel implements ActionListener{
 
     public void initButtons() {
         ImageIcon image = new ImageIcon("buttons/put.png");
-        Image resized = image.getImage().getScaledInstance(100, 60, java.awt.Image.SCALE_SMOOTH);
+        Image resized = image.getImage().getScaledInstance(Constants.PUT_BUTTON_WIDTH, Constants.PUT_BUTTON_HEIGHT, java.awt.Image.SCALE_SMOOTH);
         put_btn = new JButton(new ImageIcon(resized));
-        put_btn.setSize(110, 70);
-        put_btn.addActionListener(this);
+        put_btn.setSize(Constants.PUT_BUTTON_WIDTH + 10, Constants.PUT_BUTTON_HEIGHT + 10);
         put_btn.setBackground(Color.black);
         put_btn.addActionListener(this);
 
         image = new ImageIcon("buttons/take.png");
-        resized = image.getImage().getScaledInstance(120, 60, java.awt.Image.SCALE_SMOOTH);
+        resized = image.getImage().getScaledInstance(Constants.TAKE_BUTTON_WIDTH, Constants.TAKE_BUTTON_HEIGHT, java.awt.Image.SCALE_SMOOTH);
         take_btn = new JButton(new ImageIcon(resized));
-        take_btn.setSize(130, 70);
+        take_btn.setSize(Constants.TAKE_BUTTON_WIDTH + 10, Constants.TAKE_BUTTON_HEIGHT + 10);
         take_btn.setBackground(Color.black);
         take_btn.addActionListener(this);
+    }
 
+    public void initLog() {
         log = new JLabel();
-        log.setSize(300,400);
-        log.setFont(new Font("Arial", Font.BOLD, 14));
+        log.setSize(Constants.LOG_WIDTH, Constants.LOG_HEIGHT);
+        log.setFont(new Font("Arial", Font.BOLD, Constants.LOG_FONT_SIZE));
         log.setForeground(Color.black);
         log.setHorizontalAlignment(SwingConstants.LEFT);
         log.setVerticalAlignment(SwingConstants.TOP);
-        log.setBorder(log_border);
+        log.setBorder(new LineBorder(Color.black, 3));
     }
 
 

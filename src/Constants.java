@@ -106,6 +106,24 @@ public class Constants {
     public static final int BOARD_UPPER_CARD_Y = 350;
     public static final int BOARD_LOWER_CARD_Y = 490;
 
+    public static final int PUT_BUTTON_WIDTH = 100;
+    public static final int PUT_BUTTON_HEIGHT = 60;
+    public static final int PUT_BUTTON_X = 1150;
+    public static final int PUT_BUTTON_Y = 830;
+
+    public static final int TAKE_BUTTON_WIDTH = 120;
+    public static final int TAKE_BUTTON_HEIGHT = 60;
+    public static final int TAKE_BUTTON_X = 1300;
+    public static final int TAKE_BUTTON_Y = 830;
+
+    public static final int LOG_WIDTH = 320;
+    public static final int LOG_HEIGHT = 400;
+    public static final int LOG_X = 1150;
+    public static final int LOG_Y = 50;
+    public static final int LOG_UPDATE_TIME = 200;
+
+    public static final int LOG_FONT_SIZE = 14;
+
     //!Card
     public static final int CARD_WIDTH = 90;
     public static final int CARD_HEIGHT = 120;

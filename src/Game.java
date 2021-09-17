@@ -17,7 +17,7 @@ public class Game extends Thread{
         frame = new Frame();
         showStartScreen();
         showBoard();
-        active_player = ActivePlayer.PLAYER;
+        active_player = ActivePlayer.BOT;
 
         Game log = new Game();
         log.start();
@@ -63,6 +63,7 @@ public class Game extends Thread{
         board = new Board();
         frame.add(board);
         board.initButtons();
+        board.initLog();
         initDeck();
         initPlayer();
         initBot();
@@ -71,9 +72,9 @@ public class Game extends Thread{
         board.add(board.put_btn);
         board.add(board.take_btn);
 
-        board.log.setLocation(1150, 50);
-        board.put_btn.setLocation(1150,830);
-        board.take_btn.setLocation(1300,830);
+        board.log.setLocation(Constants.LOG_X, Constants.LOG_Y);
+        board.put_btn.setLocation(Constants.PUT_BUTTON_X, Constants.PUT_BUTTON_Y);
+        board.take_btn.setLocation(Constants.TAKE_BUTTON_X, Constants.TAKE_BUTTON_Y);
     }
 
     static void initPlayer() {
@@ -99,9 +100,7 @@ public class Game extends Thread{
     }
 
     static void dealPlayerCards() throws InterruptedException{
-
         int X = Constants.CARDS_MOST_LEFT_POSITION;
-
         for(int num_card = 0, dealt_cards = 1, bot_card = 0; num_card < 8; num_card++, dealt_cards++) {
             Card card = deck.getCard();
             if(num_card % 2 == active_player.ordinal()) {
@@ -120,7 +119,6 @@ public class Game extends Thread{
             dealt_cards = dealt_cards == 2 ? 0: dealt_cards;
             Thread.sleep(Constants.SLEEP_BETWEEN_DEALING);
         }
-
     }
 
     static void dealBoardCards() throws InterruptedException {
@@ -136,7 +134,6 @@ public class Game extends Thread{
     }
 
     static void executeAction() throws InterruptedException{
-
         boolean move_successfull = false;
         while(!move_successfull) {
             waitUntilPlayerChooseCard();
@@ -189,23 +186,22 @@ public class Game extends Thread{
         }
     }
 
-
-
     public void run() {
         while(true) {
             String log_string =
             "<html>" + "<p style=font-size:20px> Log:</p>" +
-            "<pre> NUM BOARD CARDS:              " + board.cards.size() + "<br/>"  + 
-            "<pre> NUM DECK CARDS:               " + deck.cards.size() + "<br/>"  + "<br/>" +
-            "<pre> SUM PLAYER CARDS IN HAND:     " + player.getActivePlayerCardValue() + "<br/>"  + 
-            "<pre> SUM BOARD CARDS:              " + board.getActiveBoardCardValue() + "<br/>" +
-            "<pre> NUM PLAYER CARDS COLLECTED:   " + player.collected_cards.size() + "<br/>"  +
+            "<pre> NUM BOARD CARDS:                 " + board.cards.size() + "<br/>"  + 
+            "<pre> NUM DECK CARDS:                  " + deck.cards.size() + "<br/>"  + "<br/>" +
+            "<pre> SUM ACTIVE PLAYER CARDS:         " + player.getActivePlayerCardValue() + "<br/>"  + 
+            "<pre> SUM ACTIVE BOARD CARDS:          " + board.getActiveBoardCardValue() + "<br/>" +
+            "<pre> NUM PLAYER CARDS COLLECTED:      " + player.collected_cards.size() + "<br/>"  +
+            "<pre> NUM BOT CARDS COLLECTED:         " + bot.collected_cards.size() + "<br/>"  +
             "<html/>";
 
             board.log.setText(log_string);
 
             try {
-                Thread.sleep(200);
+                sleep(Constants.LOG_UPDATE_TIME);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

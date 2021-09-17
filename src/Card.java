@@ -108,6 +108,5 @@ public Card(CardSuit type, int value) {
             default:
                 break;
         }
-
     }
 }
