@@ -9,7 +9,6 @@ public class Player extends JLabel{
 /******************************************MEMBER-VARIABLES****************************************/
    
     public JLabel deck_backside_label;
-    public JLabel num_cards_label;
 
     public ArrayList<Card> cards_in_hand = new ArrayList<>();
     public ArrayList<Card> collected_cards = new ArrayList<>();
@@ -49,11 +48,20 @@ public class Player extends JLabel{
     }
 
     public int getActivePlayerCardValue() {
-        return card_to_play.value;
+        int sum = 0;
+        for(Card c: cards_in_hand) {
+            if(c.state == State.ACTIVE_PLAYER_CARD) {
+                sum += c.value;
+            }
+        }
+        return sum;
     }
 
     public void setCardInactive() {
-        card_to_play.setPlayerCardInactive();
+        if(card_to_play != null) {
+            card_to_play.setPlayerCardInactive();
+        }
+        
     }
 
 /******************************************PRIVATE-METHODES****************************************/
@@ -65,10 +73,6 @@ public class Player extends JLabel{
         image = new ImageIcon(resized);
         deck_backside_label.setIcon(image);
         deck_backside_label.setSize(Constants.PLAYER_DECK_WIDTH, Constants.PLAYER_DECK_HEIGHT);
-
-        num_cards_label = new JLabel("0");
-        num_cards_label.setFont(new Font("Comic Sans",Font.BOLD, Constants.PLAYER_NUM_CARD_FONT_SIZE));
-        num_cards_label.setSize(Constants.PLAYER_NUM_CARD_WIDTH, Constants.PLAYER_NUM_CARD_HEIGHT);
     }
 }
 

@@ -13,13 +13,12 @@ public class Game extends Thread{
 
     static ActivePlayer active_player = ActivePlayer.NONE;
     public static void main(String[] args) throws Exception {
-
-        Game log = new Game();
-
         frame = new Frame();
         showStartScreen();
         showBoard();
         active_player = ActivePlayer.PLAYER;
+
+        Game log = new Game();
         log.start();
         
         dealBoardCards();
@@ -79,28 +78,22 @@ public class Game extends Thread{
     static void initPlayer() {
         player = new Player(start_screen.getChoosenPlayer());
         board.add(player);
-        board.add(player.num_cards_label);
         board.add(player.deck_backside_label);
         player.setLocation(Constants.PLAYER_IMAGE_POSITION_X, Constants.PLAYER_IMAGE_POSITION_Y);
-        player.num_cards_label.setLocation(Constants.PLAYER_NUM_CARD_POSITION_X, Constants.PLAYER_NUM_CARD_POSITION_Y);
         player.deck_backside_label.setLocation(Constants.PLAYER_DECK_POSITION_X, Constants.PLAYER_DECK_POSITION_Y);
     }
 
     static void initBot() {
         bot = new Bot();
         board.add(bot);
-        board.add(bot.num_cards_label);
         board.add(bot.deck_backside_label);
         bot.setLocation(Constants.BOT_IMAGE_POSITION_X, Constants.BOT_IMAGE_POSITION_Y);
-        bot.num_cards_label.setLocation(Constants.BOT_NUM_CARD_POSITION_X, Constants.BOT_NUM_CARD_POSITION_Y);
         bot.deck_backside_label.setLocation(Constants.BOT_DECK_POSITION_X, Constants.BOT_DECK_POSITION_Y);
     }
 
     static void initDeck() {
         deck = new Deck();
-        board.add(deck.num_cards_label);
         board.add(deck.deck_backside_label);
-        deck.num_cards_label.setLocation(Constants.DECK_NUM_CARD_POSITION_X, Constants.DECK_NUM_CARD_POSITION_Y);
         deck.deck_backside_label.setLocation(Constants.DECK_POSITION_X, Constants.DECK_POSITION_Y);
     }
 
@@ -110,7 +103,6 @@ public class Game extends Thread{
 
         for(int num_card = 0, dealt_cards = 1, bot_card = 0; num_card < 8; num_card++, dealt_cards++) {
             Card card = deck.getCard();
-            deck.num_cards_label.setText(Integer.toString(deck.cards.size()));
             if(num_card % 2 == active_player.ordinal()) {
                 card.type = CardType.PLAYER_CARD;
                 player.cards_in_hand.add(card);
@@ -136,7 +128,6 @@ public class Game extends Thread{
             card.type = CardType.BOARD_CARD;
             board.cards.add(card);
             board.add(card);
-            deck.num_cards_label.setText(Integer.toString(deck.cards.size()));
             card.setLocation(current_X_board, Constants.BOARD_UPPER_CARD_Y);
             current_X_board += Constants.BOARD_CARD_DISTANCE;
             Thread.sleep(Constants.SLEEP_BETWEEN_DEALING);
@@ -158,28 +149,26 @@ public class Game extends Thread{
                     current_X_board = board.cards.size() % Constants.MAX_CARDS_PER_ROW == 0? Constants.CARDS_MOST_LEFT_POSITION : current_X_board + Constants.BOARD_CARD_DISTANCE;
                     current_Y_board = board.cards.size() >= Constants.MAX_CARDS_PER_ROW ? Constants.BOARD_LOWER_CARD_Y: Constants.BOARD_UPPER_CARD_Y; 
                     card_to_put.setVisible(true);
-                    board.current_move = PlayMove.NONE;
                     move_successfull = true;
                     break;
                 case TAKE:
                     int board_value = board.getActiveBoardCardValue();
                     int player_value = player.getActivePlayerCardValue();
                     if(board_value == player_value) {
-                        System.out.println("player: " + player_value + " | board: " + board_value);
-                        board.current_move = PlayMove.NONE;
+
                         player.card_to_play = null;    
                         move_successfull = true; 
                     }
                     else {
                         player.setCardInactive();
                         board.setCardsInactive();
-                        board.current_move = PlayMove.NONE;
                         player.card_to_play = null;    
-                        System.out.println("player: " + player_value + " | board: " + board_value);
                     }
-                default:
                     break;
+                default:
+                    break;                
             }
+            board.current_move = PlayMove.NONE;
         }
     }
 
@@ -201,15 +190,17 @@ public class Game extends Thread{
 
     public void run() {
         while(true) {
-            String log_string = "<html>" + "<h2> LOG <h2/>" +
+            String log_string = "<html>" + "<p style=font-size:20px> Log:</p>" +
             "<pre> NUM BOARD CARDS:         " + board.cards.size() + "<br/>"  + 
             "<pre> NUM DECK CARDS:          " + deck.cards.size() + "<br/>"  + 
+            "<pre> SUM PLAYER CARDS:        " + player.getActivePlayerCardValue() + "<br/>"  + 
             "<pre> SUM BOARD CARDS:         " + board.getActiveBoardCardValue() + "<br/>"
             + "<html/>";
 
             board.log.setText(log_string);
+
             try {
-                Thread.sleep(500);
+                Thread.sleep(200);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

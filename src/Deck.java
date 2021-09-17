@@ -10,7 +10,6 @@ public class Deck{
     public ArrayList<Card> cards = new ArrayList<>();
 
     public JLabel deck_backside_label;
-    public JLabel num_cards_label;
 
 /******************************************CONSTRUCTORS********************************************/
    
@@ -46,9 +45,5 @@ public class Deck{
         image = new ImageIcon(resized);
         deck_backside_label.setIcon(image);
         deck_backside_label.setSize(Constants.DECK_DECK_WIDTH, Constants.DECK_DECK_HEIGHT);
-
-        num_cards_label = new JLabel("52");
-        num_cards_label.setFont(new Font("Arial", Font.BOLD, Constants.DECK_NUM_CARD_FONT_SIZE));
-        num_cards_label.setSize(Constants.DECK_NUM_CARD_WIDTH, Constants.DECK_NUM_CARD_HEIGHT);
     }
 }
