@@ -1,3 +1,4 @@
+import java.util.*;
 
 public class Game extends Thread{
     static Frame frame;
@@ -21,10 +22,10 @@ public class Game extends Thread{
         Game log = new Game();
         log.start();
         
+        dealPlayerCards();
         dealBoardCards();
         
         while(deck.cards.size() != 0) {
-            dealPlayerCards();
             executeAction();
 
 
@@ -155,19 +156,21 @@ public class Game extends Thread{
                     int board_value = board.getActiveBoardCardValue();
                     int player_value = player.getActivePlayerCardValue();
                     if(board_value == player_value) {
-
-                        player.card_to_play = null;    
+                        ArrayList<Card> active_board_cards = new ArrayList<Card>();
+                        active_board_cards = board.getActiveBoardCards();
+                        board.removeCardsFromBoard(active_board_cards);
+                        player.addCollectedCards(active_board_cards);
                         move_successfull = true; 
                     }
                     else {
                         player.setCardInactive();
                         board.setCardsInactive();
-                        player.card_to_play = null;    
                     }
                     break;
                 default:
                     break;                
             }
+            player.card_to_play = null;    
             board.current_move = PlayMove.NONE;
         }
     }
@@ -190,12 +193,14 @@ public class Game extends Thread{
 
     public void run() {
         while(true) {
-            String log_string = "<html>" + "<p style=font-size:20px> Log:</p>" +
-            "<pre> NUM BOARD CARDS:         " + board.cards.size() + "<br/>"  + 
-            "<pre> NUM DECK CARDS:          " + deck.cards.size() + "<br/>"  + 
-            "<pre> SUM PLAYER CARDS:        " + player.getActivePlayerCardValue() + "<br/>"  + 
-            "<pre> SUM BOARD CARDS:         " + board.getActiveBoardCardValue() + "<br/>"
-            + "<html/>";
+            String log_string =
+            "<html>" + "<p style=font-size:20px> Log:</p>" +
+            "<pre> NUM BOARD CARDS:              " + board.cards.size() + "<br/>"  + 
+            "<pre> NUM DECK CARDS:               " + deck.cards.size() + "<br/>"  + "<br/>" +
+            "<pre> SUM PLAYER CARDS IN HAND:     " + player.getActivePlayerCardValue() + "<br/>"  + 
+            "<pre> SUM BOARD CARDS:              " + board.getActiveBoardCardValue() + "<br/>" +
+            "<pre> NUM PLAYER CARDS COLLECTED:   " + player.collected_cards.size() + "<br/>"  +
+            "<html/>";
 
             board.log.setText(log_string);
 

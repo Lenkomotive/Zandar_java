@@ -5,7 +5,7 @@ import java.awt.event.*;
 import java.awt.*;
 
 enum CardSuit {CLUB, DIAMOND, HEART, SPADE};
-enum State {INACTIVE, ACTIVE_PLAYER_CARD, ACTIVE_BOARD_CARD};
+enum CardState {INACTIVE, ACTIVE_PLAYER_CARD, ACTIVE_BOARD_CARD};
 enum CardType{PLAYER_CARD, BOARD_CARD};
 
 public class Card extends JLabel{
@@ -14,7 +14,7 @@ public class Card extends JLabel{
 
     private CardSuit suit;
     public CardType type;
-    public State state = State.INACTIVE;
+    public CardState state = CardState.INACTIVE;
 
     public int value;
 
@@ -49,22 +49,22 @@ public Card(CardSuit type, int value) {
 /******************************************PUBLIC-METHODES*****************************************/
     public void setPlayerCardActive() {
         this.setLocation(this.getLocation().x, this.getLocation().y - 20);
-        state = State.ACTIVE_PLAYER_CARD;
+        state = CardState.ACTIVE_PLAYER_CARD;
     }
 
     public void setPlayerCardInactive() {
         this.setLocation(this.getLocation().x, this.getLocation().y + 20);
-        state = State.INACTIVE;
+        state = CardState.INACTIVE;
     }
 
     public void setBoardCardActive() {
         this.setBorder(border);
-        state = State.ACTIVE_BOARD_CARD;
+        state = CardState.ACTIVE_BOARD_CARD;
     }
 
     public void setBoardCardInactive() {
         this.setBorder(null);
-        state = State.INACTIVE;
+        state = CardState.INACTIVE;
     }
     
 /******************************************PRIVATE-METHODES****************************************/
@@ -91,7 +91,7 @@ public Card(CardSuit type, int value) {
     private void doOnClick() {
         switch (type) {
             case PLAYER_CARD:
-                if(this.state == State.INACTIVE) {
+                if(this.state == CardState.INACTIVE) {
                     setPlayerCardActive();
                 }
                 else {
@@ -99,7 +99,7 @@ public Card(CardSuit type, int value) {
                 }
                 break;
             case BOARD_CARD:
-                if(this.state == State.INACTIVE) {
+                if(this.state == CardState.INACTIVE) {
                     setBoardCardActive();
                 }
                 else {

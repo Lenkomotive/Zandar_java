@@ -30,7 +30,7 @@ public class Player extends JLabel{
 /******************************************PUBLIC-METHODES*****************************************/
     public void chooseCard() {
         for(Card card: cards_in_hand) {
-            if(card.state == State.ACTIVE_PLAYER_CARD) {
+            if(card.state == CardState.ACTIVE_PLAYER_CARD) {
                 card_to_play = card;
                 break;
             }
@@ -39,7 +39,7 @@ public class Player extends JLabel{
 
     public Card putCard() {
         Card card_to_put = card_to_play;
-        card_to_play.state = State.INACTIVE;
+        card_to_play.state = CardState.INACTIVE;
         card_to_play.type = CardType.BOARD_CARD;
         card_to_play.setVisible(false);
         cards_in_hand.remove(card_to_play);
@@ -50,7 +50,7 @@ public class Player extends JLabel{
     public int getActivePlayerCardValue() {
         int sum = 0;
         for(Card c: cards_in_hand) {
-            if(c.state == State.ACTIVE_PLAYER_CARD) {
+            if(c.state == CardState.ACTIVE_PLAYER_CARD) {
                 sum += c.value;
             }
         }
@@ -61,7 +61,15 @@ public class Player extends JLabel{
         if(card_to_play != null) {
             card_to_play.setPlayerCardInactive();
         }
-        
+    }
+
+    public void addCollectedCards(ArrayList<Card> board_cards) {
+        for(Card card: board_cards) {
+            collected_cards.add(card);
+        }
+        cards_in_hand.remove(card_to_play);
+        collected_cards.add(card_to_play);
+        card_to_play.setVisible(false);
     }
 
 /******************************************PRIVATE-METHODES****************************************/

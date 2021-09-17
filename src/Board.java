@@ -32,7 +32,7 @@ public class Board extends JPanel implements ActionListener{
     public int getActiveBoardCardValue() {
         int sum = 0;
         for(Card card: cards) {
-            if(card.state == State.ACTIVE_BOARD_CARD) {
+            if(card.state == CardState.ACTIVE_BOARD_CARD) {
                 sum += card.value;
             }
         }
@@ -42,6 +42,23 @@ public class Board extends JPanel implements ActionListener{
     public void setCardsInactive() {
         for(Card c: cards) {
             c.setBoardCardInactive();
+        }
+    }
+
+    public ArrayList<Card> getActiveBoardCards() {
+        ArrayList<Card> active_cards = new ArrayList<Card>();
+        for(Card card: cards) {
+            if(card.state == CardState.ACTIVE_BOARD_CARD) {
+                active_cards.add(card);
+            }
+        }
+        return active_cards;
+    }
+
+    public void removeCardsFromBoard(ArrayList<Card> active_cards) {
+        for(Card card: active_cards) {
+            cards.remove(card);
+            card.setVisible(false);
         }
     }
 
@@ -74,7 +91,7 @@ public class Board extends JPanel implements ActionListener{
 
         log = new JLabel();
         log.setSize(300,400);
-        log.setFont(new Font("Arial", Font.BOLD, 16));
+        log.setFont(new Font("Arial", Font.BOLD, 14));
         log.setForeground(Color.black);
         log.setHorizontalAlignment(SwingConstants.LEFT);
         log.setVerticalAlignment(SwingConstants.TOP);
