@@ -47,8 +47,25 @@ public Card(CardSuit type, int value) {
     }
 
 /******************************************PUBLIC-METHODES*****************************************/
-    
+    public void setPlayerCardActive() {
+        this.setLocation(this.getLocation().x, this.getLocation().y - 20);
+        state = State.ACTIVE_PLAYER_CARD;
+    }
 
+    public void setPlayerCardInactive() {
+        this.setLocation(this.getLocation().x, this.getLocation().y + 20);
+        state = State.INACTIVE;
+    }
+
+    public void setBoardCardActive() {
+        this.setBorder(border);
+        state = State.ACTIVE_BOARD_CARD;
+    }
+
+    public void setBoardCardInactive() {
+        this.setBorder(null);
+        state = State.INACTIVE;
+    }
     
 /******************************************PRIVATE-METHODES****************************************/
    
@@ -75,22 +92,18 @@ public Card(CardSuit type, int value) {
         switch (type) {
             case PLAYER_CARD:
                 if(this.state == State.INACTIVE) {
-                    this.setLocation(this.getLocation().x, this.getLocation().y - 20);
-                    state = State.ACTIVE_PLAYER_CARD;
+                    setPlayerCardActive();
                 }
                 else {
-                    this.setLocation(this.getLocation().x, this.getLocation().y + 20);
-                    state = State.INACTIVE;
+                    setPlayerCardInactive();
                 }
                 break;
             case BOARD_CARD:
                 if(this.state == State.INACTIVE) {
-                    this.setBorder(border);
-                    state = State.ACTIVE_BOARD_CARD;
+                    setBoardCardActive();
                 }
                 else {
-                    this.setBorder(null);
-                    state = State.INACTIVE;
+                    setBoardCardInactive();
                 }
             default:
                 break;

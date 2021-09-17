@@ -11,7 +11,8 @@ public class Bot extends JLabel{
 
     public JLabel card_backside[] = new JLabel[4];
 
-    public ArrayList<Card> cards = new ArrayList<>();
+    public ArrayList<Card> cards_in_hand = new ArrayList<>();
+    public ArrayList<Card> collected_cards = new ArrayList<>();
 
 /******************************************CONSTRUCTORS********************************************/
   

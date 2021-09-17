@@ -11,7 +11,8 @@ public class Player extends JLabel{
     public JLabel deck_backside_label;
     public JLabel num_cards_label;
 
-    public ArrayList<Card> cards = new ArrayList<>();
+    public ArrayList<Card> cards_in_hand = new ArrayList<>();
+    public ArrayList<Card> collected_cards = new ArrayList<>();
 
     public Card card_to_play = null;
 
@@ -29,7 +30,7 @@ public class Player extends JLabel{
 
 /******************************************PUBLIC-METHODES*****************************************/
     public void chooseCard() {
-        for(Card card: cards) {
+        for(Card card: cards_in_hand) {
             if(card.state == State.ACTIVE_PLAYER_CARD) {
                 card_to_play = card;
                 break;
@@ -42,9 +43,17 @@ public class Player extends JLabel{
         card_to_play.state = State.INACTIVE;
         card_to_play.type = CardType.BOARD_CARD;
         card_to_play.setVisible(false);
-        cards.remove(card_to_play);
+        cards_in_hand.remove(card_to_play);
         card_to_play = null;
         return card_to_put;
+    }
+
+    public int getActivePlayerCardValue() {
+        return card_to_play.value;
+    }
+
+    public void setCardInactive() {
+        card_to_play.setPlayerCardInactive();
     }
 
 /******************************************PRIVATE-METHODES****************************************/

@@ -15,10 +15,11 @@ public class Board extends JPanel implements ActionListener{
     public JButton put_btn;
     public JButton take_btn;
 
-    public JButton log;
+    public JLabel log;
 
     public PlayMove current_move = PlayMove.NONE;
     public Border border = new LineBorder(new Color(200,170,0), 5);
+    public Border log_border = new LineBorder(Color.black, 3);
 
 /******************************************CONSTRUCTORS********************************************/
     public Board() {
@@ -27,6 +28,22 @@ public class Board extends JPanel implements ActionListener{
     }
 
 /******************************************PUBLIC-METHODES*****************************************/
+
+    public int getActiveBoardCardValue() {
+        int sum = 0;
+        for(Card card: cards) {
+            if(card.state == State.ACTIVE_BOARD_CARD) {
+                sum += card.value;
+            }
+        }
+        return sum;
+    }
+
+    public void setCardsInactive() {
+        for(Card c: cards) {
+            c.setBoardCardInactive();
+        }
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -54,6 +71,14 @@ public class Board extends JPanel implements ActionListener{
         take_btn.setSize(130, 70);
         take_btn.setBackground(Color.black);
         take_btn.addActionListener(this);
+
+        log = new JLabel();
+        log.setSize(300,400);
+        log.setFont(new Font("Arial", Font.BOLD, 16));
+        log.setForeground(Color.black);
+        log.setHorizontalAlignment(SwingConstants.LEFT);
+        log.setVerticalAlignment(SwingConstants.TOP);
+        log.setBorder(log_border);
     }
 
 
