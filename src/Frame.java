@@ -8,7 +8,7 @@ public class Frame extends JFrame{
     
 /******************************************CONSTRUCTORS********************************************/
     
-public Frame() {
+    public Frame() {
         this.setTitle("P E P E - Ž A N D A R");
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setResizable(false);

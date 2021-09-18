@@ -18,7 +18,7 @@ public class Board extends JPanel implements ActionListener{
     public JLabel log;
 
     public PlayMove current_move = PlayMove.NONE;
-  
+
 
 /******************************************CONSTRUCTORS********************************************/
     public Board() {
