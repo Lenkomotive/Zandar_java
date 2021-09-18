@@ -15,13 +15,17 @@ public class Game extends Thread{
     static ActivePlayer active_player = ActivePlayer.NONE;
     public static void main(String[] args) throws Exception {
         frame = new Frame();
-        showStartScreen();
-        showBoard();
-        active_player = ActivePlayer.BOT;
+        initStartScreen();
+        initBoard();
+        initDeck();
+        initPlayer();
+        initBot();
 
+        board.initLog(player, bot, deck);
         Game log = new Game();
         log.start();
-        
+
+        active_player = ActivePlayer.BOT;
         dealPlayerCards();
         dealBoardCards();
         
@@ -32,7 +36,7 @@ public class Game extends Thread{
         }
     }
 
-    static void showStartScreen() throws InterruptedException {
+    static void initStartScreen() throws InterruptedException {
         start_screen = new StartScreen();
         frame.add(start_screen);
         start_screen.initPlayers();
@@ -59,19 +63,15 @@ public class Game extends Thread{
         start_screen.setVisible(false);
     }
 
-    static void showBoard() {
+    static void initBoard() {
         board = new Board();
         frame.add(board);
-        board.initButtons();
-        board.initLog();
-        initDeck();
-        initPlayer();
-        initBot();
-
+        board.initPutBtn();
+        board.initTakeBtn();
+        board.initLogLabel();
         board.add(board.log);
         board.add(board.put_btn);
         board.add(board.take_btn);
-
         board.log.setLocation(Constants.LOG_X, Constants.LOG_Y);
         board.put_btn.setLocation(Constants.PUT_BUTTON_X, Constants.PUT_BUTTON_Y);
         board.take_btn.setLocation(Constants.TAKE_BUTTON_X, Constants.TAKE_BUTTON_Y);
@@ -188,18 +188,7 @@ public class Game extends Thread{
 
     public void run() {
         while(true) {
-            String log_string =
-            "<html>" + "<p style=font-size:20px> Log:</p>" +
-            "<pre> NUM BOARD CARDS:                 " + board.cards.size() + "<br/>"  + 
-            "<pre> NUM DECK CARDS:                  " + deck.cards.size() + "<br/>"  + "<br/>" +
-            "<pre> SUM ACTIVE PLAYER CARDS:         " + player.getActivePlayerCardValue() + "<br/>"  + 
-            "<pre> SUM ACTIVE BOARD CARDS:          " + board.getActiveBoardCardValue() + "<br/>" +
-            "<pre> NUM PLAYER CARDS COLLECTED:      " + player.collected_cards.size() + "<br/>"  +
-            "<pre> NUM BOT CARDS COLLECTED:         " + bot.collected_cards.size() + "<br/>"  +
-            "<html/>";
-
-            board.log.setText(log_string);
-
+            board.log();
             try {
                 sleep(Constants.LOG_UPDATE_TIME);
             } catch (InterruptedException e) {
