@@ -97,6 +97,7 @@ public interface Constants {
 
     //!Board
     int CARDS_MOST_LEFT_POSITION = 350;
+    int CARDS_MOST_RIGHT_POSITION = 900;
 
     int PLAYER_CARD_DISTANCE = 100;
     int BOARD_CARD_DISTANCE = 110;

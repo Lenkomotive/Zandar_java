@@ -4,7 +4,6 @@ import java.util.*;
 import java.awt.event.*;
 import javax.swing.border.*;
 
-
 enum PlayMove {PUT, TAKE, NONE};
 enum ActivePlayer {PLAYER, BOT, NONE};
 
@@ -13,6 +12,8 @@ public class Board extends JPanel implements ActionListener{
     private static Board instance = null;
 
     public ArrayList<Card> cards = new ArrayList<>();
+
+    public LinkedHashMap<Point, Boolean> board_map = new LinkedHashMap<Point, Boolean>();
 
     public JButton put_btn;
     public JButton take_btn;
@@ -26,6 +27,7 @@ public class Board extends JPanel implements ActionListener{
     private Board() {
         this.setLayout(null);
         this.setBackground(Constants.GREEN);
+        initBoardMap();
     }
 
 /******************************************PUBLIC-METHODES*****************************************/
@@ -62,8 +64,9 @@ public class Board extends JPanel implements ActionListener{
         return active_cards;
     }
 
-    public void removeCardsFromBoard(ArrayList<Card> active_cards) {
-        for(Card card: active_cards) {
+    public void removeCardsFromBoard() {
+        for(Card card: getActiveBoardCards()) {
+            board_map.put(card.getLocation(), Boolean.FALSE);
             cards.remove(card);
             card.setVisible(false);
         }
@@ -108,9 +111,25 @@ public class Board extends JPanel implements ActionListener{
         log.setBorder(new LineBorder(Color.black, 3));
     }
 
-
-
+    public Point getNextCardPlace() {
+        Point next = null;
+        for(Point p : board_map.keySet()) {
+            if(board_map.get(p) == Boolean.FALSE) {
+                board_map.put(p, Boolean.TRUE);
+                next = p;
+                break;
+            }
+        }
+        return next;
+    }
 
 /******************************************PRIVATE-METHODES****************************************/
-
+    private void initBoardMap() {
+        for(int x = Constants.CARDS_MOST_LEFT_POSITION; x <= Constants.CARDS_MOST_RIGHT_POSITION; x += Constants.BOARD_CARD_DISTANCE) {
+            board_map.put(new Point(x, Constants.BOARD_UPPER_CARD_Y), Boolean.FALSE); 
+        }
+        for(int x = Constants.CARDS_MOST_LEFT_POSITION; x <= Constants.CARDS_MOST_RIGHT_POSITION; x += Constants.BOARD_CARD_DISTANCE) {
+            board_map.put(new Point(x, Constants.BOARD_LOWER_CARD_Y), Boolean.FALSE);
+        }
+    }
 }

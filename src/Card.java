@@ -50,7 +50,7 @@ public Card(CardSuit type, int value) {
 
 /******************************************PUBLIC-METHODES*****************************************/
     public void setPlayerCardActive() {
-        //!player.setCardInactive();
+        player.setCardInactive();
         this.setLocation(this.getLocation().x, this.getLocation().y - 20);
         state = CardState.ACTIVE_PLAYER_CARD;
     }

@@ -1,26 +1,21 @@
-import java.util.*;
-
-public class Game extends Thread{
-    static MyFrame frame = MyFrame.getInstance() ;
+public class Game extends Thread {
+    static MyFrame frame = MyFrame.getInstance();
     static StartScreen start_screen = StartScreen.getInstance();
     static Board board;
-    
+
     static Bot bot;
     static Player player;
     static Deck deck;
     static Log log = Log.getInstance();
 
-    static int current_X_board = Constants.CARDS_MOST_LEFT_POSITION;
-    static int current_Y_board = Constants.BOARD_UPPER_CARD_Y;
-
     static ActivePlayer active_player = ActivePlayer.NONE;
+
     public static void main(String[] args) throws Exception {
         initStartScreen();
         initBoard();
         initPlayer();
         initDeck();
         initBot();
-
 
         log.initLog(player, bot, board, deck);
         Game log_thread = new Game();
@@ -29,10 +24,12 @@ public class Game extends Thread{
         active_player = ActivePlayer.BOT;
         dealPlayerCards();
         dealBoardCards();
-        
-        while(deck.cards.size() != 0) {
-            executeAction();
 
+        while (deck.cards.size() != 0) {
+            executeAction();
+            if(player.cards_in_hand.size() == 0) {
+                dealPlayerCards();
+            }
 
         }
     }
@@ -57,7 +54,7 @@ public class Game extends Thread{
         start_screen.player_4_btn.setLocation(Constants.PLAYER_4_BUTTON_X, Constants.PLAYER_BUTTON_Y);
         start_screen.choose_player_label.setLocation(Constants.CHOOSE_PLAYER_LABEL_X, Constants.CHOOSE_PLAYER_LABEL_Y);
 
-        while( !start_screen.start_game) {
+        while (!start_screen.start_game) {
             Thread.sleep(50);
         }
         start_screen.setVisible(false);
@@ -99,43 +96,41 @@ public class Game extends Thread{
         deck.deck_backside_label.setLocation(Constants.DECK_POSITION_X, Constants.DECK_POSITION_Y);
     }
 
-    static void dealPlayerCards() throws InterruptedException{
+    static void dealPlayerCards() throws InterruptedException {
         int X = Constants.CARDS_MOST_LEFT_POSITION;
-        for(int num_card = 0, dealt_cards = 1, bot_card = 0; num_card < 8; num_card++, dealt_cards++) {
+        for (int num_card = 0, dealt_cards = 1, bot_card = 0; num_card < 8; num_card++, dealt_cards++) {
             Card card = deck.getCard();
-            if(num_card % 2 == active_player.ordinal()) {
+            if (num_card % 2 == active_player.ordinal()) {
                 card.type = CardType.PLAYER_CARD;
                 player.cards_in_hand.add(card);
                 board.add(card);
                 card.setLocation(X, Constants.PLAYER_CARD_Y);
-            }
-            else { 
+            } else {
                 bot.cards_in_hand.add(card);
                 board.add(bot.card_backside[bot_card]);
                 bot.card_backside[bot_card].setLocation(X, Constants.BOT_CARD_Y);
                 bot_card++;
             }
-            X = dealt_cards == 2? X += Constants.PLAYER_CARD_DISTANCE : X; 
-            dealt_cards = dealt_cards == 2 ? 0: dealt_cards;
+            X = dealt_cards == 2 ? X += Constants.PLAYER_CARD_DISTANCE : X;
+            dealt_cards = dealt_cards == 2 ? 0 : dealt_cards;
             Thread.sleep(Constants.SLEEP_BETWEEN_DEALING);
         }
     }
 
     static void dealBoardCards() throws InterruptedException {
-        for(int num_card = 0; num_card < Constants.NUM_CARDS_ON_BOARD; num_card++) {
+        for (int num_card = 0; num_card < Constants.NUM_CARDS_ON_BOARD; num_card++) {
             Card card = deck.getCard();
             card.type = CardType.BOARD_CARD;
             board.cards.add(card);
             board.add(card);
-            card.setLocation(current_X_board, Constants.BOARD_UPPER_CARD_Y);
-            current_X_board += Constants.BOARD_CARD_DISTANCE;
+            card.setLocation(board.getNextCardPlace());
             Thread.sleep(Constants.SLEEP_BETWEEN_DEALING);
         }
     }
 
-    static void executeAction() throws InterruptedException{
+    static void executeAction() throws InterruptedException {
         boolean move_successfull = false;
-        while(!move_successfull) {
+        while (!move_successfull) {
             waitUntilPlayerChooseCard();
             waitForMoveDecision();
             switch (board.current_move) {
@@ -143,51 +138,72 @@ public class Game extends Thread{
                     Card card_to_put = player.putCard();
                     board.cards.add(card_to_put);
                     board.add(card_to_put);
-                    card_to_put.setLocation(current_X_board, current_Y_board);
-                    current_X_board = board.cards.size() % Constants.MAX_CARDS_PER_ROW == 0? Constants.CARDS_MOST_LEFT_POSITION : current_X_board + Constants.BOARD_CARD_DISTANCE;
-                    current_Y_board = board.cards.size() >= Constants.MAX_CARDS_PER_ROW ? Constants.BOARD_LOWER_CARD_Y: Constants.BOARD_UPPER_CARD_Y; 
+                    card_to_put.setLocation(board.getNextCardPlace());
                     card_to_put.setVisible(true);
                     move_successfull = true;
                     break;
                 case TAKE:
+                    Card active_card = player.getActiveCard();
                     int board_value = board.getActiveBoardCardValue();
-                    int player_value = player.getActivePlayerCardValue();
-                    if(board_value == player_value) {
-                        ArrayList<Card> active_board_cards = new ArrayList<Card>();
-                        active_board_cards = board.getActiveBoardCards();
-                        board.removeCardsFromBoard(active_board_cards);
-                        player.addCollectedCards(active_board_cards);
-                        move_successfull = true; 
-                    }
-                    else {
-                        player.setCardInactive();
-                        board.setCardsInactive();
+                    switch (active_card.value) {
+                        case 12: case 13:
+                            if(active_card.value == board_value && board.getActiveBoardCards().size() == 1) {
+                                player.addToCollectedCards(board.getActiveBoardCards());
+                                board.removeCardsFromBoard();
+                                move_successfull = true;
+                            } else {
+                                player.setCardInactive();
+                                board.setCardsInactive();
+                            }
+                            break;
+                        case 11:
+                            active_card.setVisible(false);
+                            player.cards_in_hand.remove(active_card);
+                            player.collected_cards.add(active_card);
+                            for(Card card: board.cards) {
+                                card.setVisible(false);
+                                board.board_map.put(card.getLocation(), Boolean.FALSE);
+                                player.collected_cards.add(card);
+                            }
+                            board.cards.clear();
+                            move_successfull = true;
+                            break;
+                        default:
+                            if (board_value == active_card.value) {
+                                player.addToCollectedCards(board.getActiveBoardCards());
+                                board.removeCardsFromBoard();
+                                move_successfull = true;
+                            } else {
+                                player.setCardInactive();
+                                board.setCardsInactive();
+                            }
+                            break;
                     }
                     break;
                 default:
-                    break;                
+                    break;
             }
-            player.card_to_play = null;    
+            player.card_chosen = false;
             board.current_move = PlayMove.NONE;
         }
     }
 
     static void waitUntilPlayerChooseCard() throws InterruptedException {
-        while(player.card_to_play == null) {
+        while (player.card_chosen == false) {
             player.chooseCard();
             board.current_move = PlayMove.NONE;
             Thread.sleep(50);
         }
     }
 
-    static void waitForMoveDecision() throws InterruptedException{
-        while(board.current_move == PlayMove.NONE) {
+    static void waitForMoveDecision() throws InterruptedException {
+        while (board.current_move == PlayMove.NONE) {
             Thread.sleep(50);
         }
     }
 
     public void run() {
-        while(true) {
+        while (true) {
             log.log();
             try {
                 sleep(Constants.LOG_UPDATE_TIME);

@@ -14,7 +14,7 @@ public class Player extends JLabel{
     public ArrayList<Card> cards_in_hand = new ArrayList<>();
     public ArrayList<Card> collected_cards = new ArrayList<>();
 
-    public Card card_to_play = null;
+    public boolean card_chosen = false;
 
 /******************************************CONSTRUCTORS********************************************/
 
@@ -39,49 +39,64 @@ public class Player extends JLabel{
     public void chooseCard() {
         for(Card card: cards_in_hand) {
             if(card.state == CardState.ACTIVE_PLAYER_CARD) {
-                card_to_play = card;
+                card_chosen = true;
                 break;
             }
         }
     }
 
     public Card putCard() {
-        Card card_to_put = card_to_play;
-        card_to_play.state = CardState.INACTIVE;
-        card_to_play.type = CardType.BOARD_CARD;
-        card_to_play.setVisible(false);
-        cards_in_hand.remove(card_to_play);
-        card_to_play = null;
+        Card card_to_put = getActiveCard();
+        card_to_put.state = CardState.INACTIVE;
+        card_to_put.type = CardType.BOARD_CARD;
+        card_to_put.setVisible(false);
+        cards_in_hand.remove(card_to_put);
         return card_to_put;
     }
 
     public int getActivePlayerCardValue() {
-        int sum = 0;
-        for(Card c: cards_in_hand) {
-            if(c.state == CardState.ACTIVE_PLAYER_CARD) {
-                sum += c.value;
-            }
+        Card active_card = getActiveCard();
+        if(active_card != null) {
+            return active_card.value;
         }
-        return sum;
+        return 0;
     }
 
     public void setCardInactive() {
-        if(card_to_play != null) {
-            card_to_play.setPlayerCardInactive();
+        Card active_card = getActiveCard();
+        if(active_card != null) {
+            active_card.setPlayerCardInactive();
         }
     }
 
-    public void addCollectedCards(ArrayList<Card> board_cards) {
+    public void addToCollectedCards(ArrayList<Card> board_cards) {
         for(Card card: board_cards) {
             collected_cards.add(card);
         }
-        cards_in_hand.remove(card_to_play);
-        collected_cards.add(card_to_play);
-        card_to_play.setVisible(false);
+        Card active_card = getActiveCard();
+        active_card.setVisible(false);
+        cards_in_hand.remove(active_card);
+        collected_cards.add(active_card);
+    }
+
+    public int getActiveCardValue() {
+        if(getActiveCard() != null) {
+            return getActiveCard().value;
+        }
+        return 0;
     }
 
 /******************************************PRIVATE-METHODES****************************************/
-    
+    public Card getActiveCard() {
+        Card active_card = null;
+        for(Card card: cards_in_hand) {
+            if(card.state == CardState.ACTIVE_PLAYER_CARD) {
+                active_card = card;
+            }
+        }
+        return active_card;
+    }    
+
     private void initDeckLabels() {
         deck_backside_label = new JLabel();
         ImageIcon image = new ImageIcon("cards/backside_deck.png");

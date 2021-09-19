@@ -26,7 +26,7 @@ public class Log {
             "<html>" + "<p style=font-size:20px> Log:</p>" +
             "<pre> NUM BOARD CARDS:                 " + board.cards.size() + "<br/>"  + 
             "<pre> NUM DECK CARDS:                  " + deck.cards.size() + "<br/>"  + "<br/>" +
-            "<pre> SUM ACTIVE PLAYER CARDS:         " + player.getActivePlayerCardValue() + "<br/>"  + 
+            "<pre> SUM ACTIVE PLAYER CARDS:         " + player.getActiveCardValue() + "<br/>"  + 
             "<pre> SUM ACTIVE BOARD CARDS:          " + board.getActiveBoardCardValue() + "<br/>" +
             "<pre> NUM PLAYER CARDS COLLECTED:      " + player.collected_cards.size() + "<br/>"  +
             "<pre> NUM BOT CARDS COLLECTED:         " + bot.collected_cards.size() + "<br/>"  +
