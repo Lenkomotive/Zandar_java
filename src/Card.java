@@ -12,6 +12,8 @@ public class Card extends JLabel{
 
 /******************************************MEMBER-VARIABLES****************************************/
 
+    public static Player player;
+
     private CardSuit suit;
     public CardType type;
     public CardState state = CardState.INACTIVE;
@@ -43,11 +45,12 @@ public Card(CardSuit type, int value) {
             public void mouseClicked(MouseEvent me) {
                 doOnClick();
             }           
-          });
+        });
     }
 
 /******************************************PUBLIC-METHODES*****************************************/
     public void setPlayerCardActive() {
+        //!player.setCardInactive();
         this.setLocation(this.getLocation().x, this.getLocation().y - 20);
         state = CardState.ACTIVE_PLAYER_CARD;
     }

@@ -9,20 +9,22 @@ public class Deck{
     private static Deck instance = null;
 
     public ArrayList<Card> cards = new ArrayList<>();
+    Player player;
 
     public JLabel deck_backside_label;
 
 /******************************************CONSTRUCTORS********************************************/
    
-    private Deck() {
+    private Deck(Player player) {
+        this.player = player;
         initDeck();
         initDeckLabels();
     }
 
 /******************************************PUBLIC-METHODES*****************************************/
-    public static Deck getInstance() {
+    public static Deck getInstance(Player player) {
         if(instance == null) {
-            instance = new Deck();
+            instance = new Deck(player);
         }
         return instance;
     }
@@ -37,6 +39,7 @@ public class Deck{
 /******************************************PRIVATE-METHODES****************************************/
     
     private void initDeck() {
+        Card.player = player;
         for(int value = 1; value <= 13; value++) {
             cards.add(new Card(CardSuit.CLUB, value));
             cards.add(new Card(CardSuit.DIAMOND, value));

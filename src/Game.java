@@ -17,8 +17,8 @@ public class Game extends Thread{
     public static void main(String[] args) throws Exception {
         initStartScreen();
         initBoard();
-        initDeck();
         initPlayer();
+        initDeck();
         initBot();
 
 
@@ -94,7 +94,7 @@ public class Game extends Thread{
     }
 
     static void initDeck() {
-        deck = Deck.getInstance();
+        deck = Deck.getInstance(player);
         board.add(deck.deck_backside_label);
         deck.deck_backside_label.setLocation(Constants.DECK_POSITION_X, Constants.DECK_POSITION_Y);
     }
