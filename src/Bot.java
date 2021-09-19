@@ -14,7 +14,6 @@ public class Bot extends JLabel{
     public ArrayList<Card> collected_cards = new ArrayList<>();
 
 /******************************************CONSTRUCTORS********************************************/
-  
     private Bot() {
         ImageIcon image = new ImageIcon("players/chad.png");
         Image resized = image.getImage().getScaledInstance(Constants.BOT_IMAGE_WIDTH, Constants.BOT_IMAGE_HEIGHT, java.awt.Image.SCALE_SMOOTH);

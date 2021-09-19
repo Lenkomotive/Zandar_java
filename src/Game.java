@@ -78,7 +78,7 @@ public class Game extends Thread{
     }
 
     static void initPlayer() {
-        player = new Player(start_screen.getChoosenPlayer());
+        player = Player.getInstance(start_screen.getChoosenPlayer());
         board.add(player);
         board.add(player.deck_backside_label);
         player.setLocation(Constants.PLAYER_IMAGE_POSITION_X, Constants.PLAYER_IMAGE_POSITION_Y);
@@ -94,7 +94,7 @@ public class Game extends Thread{
     }
 
     static void initDeck() {
-        deck = new Deck();
+        deck = Deck.getInstance();
         board.add(deck.deck_backside_label);
         deck.deck_backside_label.setLocation(Constants.DECK_POSITION_X, Constants.DECK_POSITION_Y);
     }

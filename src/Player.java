@@ -7,7 +7,8 @@ enum PlayerType {NONE, PLAYER_1, PLAYER_2, PLAYER_3, PLAYER_4};
 
 public class Player extends JLabel{
 /******************************************MEMBER-VARIABLES****************************************/
-   
+    private static Player instance = null;
+
     public JLabel deck_backside_label;
 
     public ArrayList<Card> cards_in_hand = new ArrayList<>();
@@ -16,8 +17,8 @@ public class Player extends JLabel{
     public Card card_to_play = null;
 
 /******************************************CONSTRUCTORS********************************************/
-    
-    public Player(PlayerType player) {
+
+    private Player(PlayerType player) {
         ImageIcon image = new ImageIcon("players/player" + player.ordinal() + ".png");
         Image resized = image.getImage().getScaledInstance(Constants.PLAYER_IMAGE_WIDTH, Constants.PLAYER_IMAGE_HEIGHT, java.awt.Image.SCALE_SMOOTH);
         image = new ImageIcon(resized);
@@ -28,6 +29,13 @@ public class Player extends JLabel{
 
 
 /******************************************PUBLIC-METHODES*****************************************/
+    public static Player getInstance(PlayerType player) {
+        if(instance == null) {
+            instance = new Player(player);
+        }
+        return instance;
+    }
+
     public void chooseCard() {
         for(Card card: cards_in_hand) {
             if(card.state == CardState.ACTIVE_PLAYER_CARD) {

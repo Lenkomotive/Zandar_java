@@ -6,20 +6,28 @@ import java.awt.*;
 
 public class Deck{
 /******************************************MEMBER-VARIABLES****************************************/
-  
+    private static Deck instance = null;
+
     public ArrayList<Card> cards = new ArrayList<>();
 
     public JLabel deck_backside_label;
 
 /******************************************CONSTRUCTORS********************************************/
    
-    public Deck() {
+    private Deck() {
         initDeck();
         initDeckLabels();
     }
 
 /******************************************PUBLIC-METHODES*****************************************/
-    
+    public static Deck getInstance() {
+        if(instance == null) {
+            instance = new Deck();
+        }
+        return instance;
+    }
+
+
     public Card getCard() {
         Card card = cards.get(cards.size() - 1);
         cards.remove(cards.size() - 1);
