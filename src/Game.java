@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class Game extends Thread {
     static MyFrame frame = MyFrame.getInstance();
     static StartScreen start_screen = StartScreen.getInstance();
@@ -26,11 +28,12 @@ public class Game extends Thread {
         dealBoardCards();
 
         while (deck.cards.size() != 0) {
-            executeAction();
-            if(player.cards_in_hand.size() == 0) {
-                dealPlayerCards();
+            for(int i = 0; i < 4; i++) {
+                playerMove();
+                Thread.sleep(600);
+                botMove();
             }
-
+            dealPlayerCards();
         }
     }
 
@@ -128,7 +131,7 @@ public class Game extends Thread {
         }
     }
 
-    static void executeAction() throws InterruptedException {
+    static void playerMove() throws InterruptedException {
         boolean move_successfull = false;
         while (!move_successfull) {
             waitUntilPlayerChooseCard();
@@ -201,6 +204,19 @@ public class Game extends Thread {
             Thread.sleep(50);
         }
     }
+
+    static void botMove() {
+        bot.hideCardBackside();
+        Card active_card = bot.cards_in_hand.get(0);
+        bot.cards_in_hand.remove(active_card);
+        board.cards.add(active_card);
+        board.add(active_card);
+        active_card.setVisible(true);
+        active_card.setLocation(board.getNextCardPlace());
+
+    }
+
+
 
     public void run() {
         while (true) {

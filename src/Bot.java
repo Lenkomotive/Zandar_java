@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.util.*;
 
+
+
 import java.awt.*;
 
 public class Bot extends JLabel{
@@ -9,6 +11,8 @@ public class Bot extends JLabel{
     public JLabel deck_backside_label;
 
     public JLabel card_backside[] = new JLabel[4];
+    ArrayList<Integer> card_backside_index = new ArrayList<Integer>();
+
 
     public ArrayList<Card> cards_in_hand = new ArrayList<>();
     public ArrayList<Card> collected_cards = new ArrayList<>();
@@ -21,6 +25,7 @@ public class Bot extends JLabel{
         this.setIcon(image);
         this.setSize(Constants.BOT_IMAGE_WIDTH, Constants.BOT_IMAGE_HEIGHT);
         initDeckLabels();
+        initIndexList();
     }
 
 /******************************************PUBLIC-METHODES*****************************************/
@@ -29,6 +34,14 @@ public class Bot extends JLabel{
             instance = new Bot();
         }
         return instance;
+    }
+
+    public void hideCardBackside() {
+        Random rand = new Random();
+        int list_index = rand.nextInt(card_backside_index.size());
+        int card_index = card_backside_index.get(list_index);
+        card_backside_index.remove(list_index);
+        card_backside[card_index].setVisible(false);
     }
 
 
@@ -48,6 +61,12 @@ public class Bot extends JLabel{
             image = new ImageIcon(resized);
             card_backside[i].setIcon(image);
             card_backside[i].setSize(Constants.CARD_WIDTH, Constants.CARD_HEIGHT);
+        }
+    }
+
+    public void initIndexList() {
+        for(int i = 0; i < 4; i++) {
+            card_backside_index.add(i);
         }
     }
 }
