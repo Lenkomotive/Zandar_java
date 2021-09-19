@@ -10,14 +10,12 @@ enum ActivePlayer {PLAYER, BOT, NONE};
 
 public class Board extends JPanel implements ActionListener{
 /******************************************MEMBER-VARIABLES****************************************/
+    private static Board instance = null;
+
     public ArrayList<Card> cards = new ArrayList<>();
 
     public JButton put_btn;
     public JButton take_btn;
-
-    private Player player;
-    private Bot bot;
-    private Deck deck;
 
     public JLabel log;
 
@@ -25,12 +23,19 @@ public class Board extends JPanel implements ActionListener{
 
 
 /******************************************CONSTRUCTORS********************************************/
-    public Board() {
+    private Board() {
         this.setLayout(null);
         this.setBackground(Constants.GREEN);
     }
 
 /******************************************PUBLIC-METHODES*****************************************/
+    public static Board getInstance() {
+        if(instance == null) {
+            instance = new Board();
+        }
+        return instance;
+    }
+
     public int getActiveBoardCardValue() {
         int sum = 0;
         for(Card card: cards) {
@@ -103,25 +108,6 @@ public class Board extends JPanel implements ActionListener{
         log.setBorder(new LineBorder(Color.black, 3));
     }
 
-    public void initLog(Player player, Bot bot, Deck deck) {
-        this.player = player;
-        this.bot = bot;
-        this.deck = deck;
-    }
-
-    public void log() {
-        String log_string =
-            "<html>" + "<p style=font-size:20px> Log:</p>" +
-            "<pre> NUM BOARD CARDS:                 " + this.cards.size() + "<br/>"  + 
-            "<pre> NUM DECK CARDS:                  " + deck.cards.size() + "<br/>"  + "<br/>" +
-            "<pre> SUM ACTIVE PLAYER CARDS:         " + player.getActivePlayerCardValue() + "<br/>"  + 
-            "<pre> SUM ACTIVE BOARD CARDS:          " + this.getActiveBoardCardValue() + "<br/>" +
-            "<pre> NUM PLAYER CARDS COLLECTED:      " + player.collected_cards.size() + "<br/>"  +
-            "<pre> NUM BOT CARDS COLLECTED:         " + bot.collected_cards.size() + "<br/>"  +
-            "<html/>";
-
-            this.log.setText(log_string);
-    }
 
 
 

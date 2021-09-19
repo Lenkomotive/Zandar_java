@@ -1,29 +1,30 @@
 import java.util.*;
 
 public class Game extends Thread{
-    static Frame frame;
-    static StartScreen start_screen;
+    static MyFrame frame = MyFrame.getInstance() ;
+    static StartScreen start_screen = StartScreen.getInstance();
     static Board board;
     
     static Bot bot;
     static Player player;
     static Deck deck;
+    static Log log = Log.getInstance();
 
     static int current_X_board = Constants.CARDS_MOST_LEFT_POSITION;
     static int current_Y_board = Constants.BOARD_UPPER_CARD_Y;
 
     static ActivePlayer active_player = ActivePlayer.NONE;
     public static void main(String[] args) throws Exception {
-        frame = new Frame();
         initStartScreen();
         initBoard();
         initDeck();
         initPlayer();
         initBot();
 
-        board.initLog(player, bot, deck);
-        Game log = new Game();
-        log.start();
+
+        log.initLog(player, bot, board, deck);
+        Game log_thread = new Game();
+        log_thread.start();
 
         active_player = ActivePlayer.BOT;
         dealPlayerCards();
@@ -37,7 +38,6 @@ public class Game extends Thread{
     }
 
     static void initStartScreen() throws InterruptedException {
-        start_screen = new StartScreen();
         frame.add(start_screen);
         start_screen.initPlayers();
         start_screen.initStartButton();
@@ -64,7 +64,7 @@ public class Game extends Thread{
     }
 
     static void initBoard() {
-        board = new Board();
+        board = Board.getInstance();
         frame.add(board);
         board.initPutBtn();
         board.initTakeBtn();
@@ -86,7 +86,7 @@ public class Game extends Thread{
     }
 
     static void initBot() {
-        bot = new Bot();
+        bot = Bot.getInstance();
         board.add(bot);
         board.add(bot.deck_backside_label);
         bot.setLocation(Constants.BOT_IMAGE_POSITION_X, Constants.BOT_IMAGE_POSITION_Y);
@@ -188,7 +188,7 @@ public class Game extends Thread{
 
     public void run() {
         while(true) {
-            board.log();
+            log.log();
             try {
                 sleep(Constants.LOG_UPDATE_TIME);
             } catch (InterruptedException e) {

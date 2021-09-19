@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class Bot extends JLabel{
 /******************************************MEMBER-VARIABLES****************************************/
-       
+    private static Bot instance = null;
     public JLabel deck_backside_label;
 
     public JLabel card_backside[] = new JLabel[4];
@@ -15,7 +15,7 @@ public class Bot extends JLabel{
 
 /******************************************CONSTRUCTORS********************************************/
   
-    public Bot() {
+    private Bot() {
         ImageIcon image = new ImageIcon("players/chad.png");
         Image resized = image.getImage().getScaledInstance(Constants.BOT_IMAGE_WIDTH, Constants.BOT_IMAGE_HEIGHT, java.awt.Image.SCALE_SMOOTH);
         image = new ImageIcon(resized);
@@ -25,7 +25,15 @@ public class Bot extends JLabel{
     }
 
 /******************************************PUBLIC-METHODES*****************************************/
-   
+    public static Bot getInstance() {
+        if(instance == null) {
+            instance = new Bot();
+        }
+        return instance;
+    }
+
+
+/******************************************PRIVATE-METHODES****************************************/
     private void initDeckLabels() {
         deck_backside_label = new JLabel();
         ImageIcon image = new ImageIcon("cards/backside_deck.png");
@@ -43,7 +51,4 @@ public class Bot extends JLabel{
             card_backside[i].setSize(Constants.CARD_WIDTH, Constants.CARD_HEIGHT);
         }
     }
-    
-/******************************************PRIVATE-METHODES****************************************/
-
 }

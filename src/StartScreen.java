@@ -20,17 +20,26 @@ public class StartScreen extends JPanel implements ActionListener{
 
     public Border border = new LineBorder(Constants.GOLD, 8);
 
+    private static StartScreen instance = null;
+
 
 /******************************************CONSTRUCTORS********************************************/
     
-    public StartScreen() {
+    private StartScreen() {
         this.setLayout(null);
         this.setBackground(Constants.GREEN);
         this.setVisible(true);
     }
 
 /******************************************PUBLIC-METHODES*****************************************/
-    
+    public static StartScreen getInstance() {
+        if(instance == null) {
+            instance = new StartScreen();
+        }
+        return instance;
+    }
+
+
     public PlayerType getChoosenPlayer() {
         return choosen_player;
     }
