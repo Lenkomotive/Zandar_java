@@ -12,8 +12,10 @@ public interface Constants {
 
     Color GREEN = new Color(12,100,12);
     Color GOLD = new Color(200,170,0);
+    Color RED = new Color(255,40,40);
 
     int SLEEP_BETWEEN_DEALING = 200;
+    int SLEEP_BETWEEN_MOVE = 600;
 
     //!Player
     int PLAYER_IMAGE_WIDTH = 150;
@@ -53,6 +55,9 @@ public interface Constants {
 
     int BOT_NUM_CARD_WIDTH = 100;
     int BOT_NUM_CARD_HEIGHT = 50;
+
+    int BOT_SHOW_CARD_TO_PLAY_X = 790;
+    int BOT_SHOW_CARD_TIME = 1000;
 
     //!Deck
     int DECK_DECK_WIDTH = 140;
@@ -128,6 +133,10 @@ public interface Constants {
     //!Card
     int CARD_WIDTH = 90;
     int CARD_HEIGHT = 120;
+
+    int King = 13;
+    int Queen = 12;
+    int Zandar = 11;
 
 
 }

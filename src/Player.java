@@ -49,7 +49,7 @@ public class Player extends JLabel{
         Card card_to_put = getActiveCard();
         card_to_put.state = CardState.INACTIVE;
         card_to_put.type = CardType.BOARD_CARD;
-        card_to_put.setVisible(false);
+        card_to_put.setBorder(null);
         cards_in_hand.remove(card_to_put);
         return card_to_put;
     }

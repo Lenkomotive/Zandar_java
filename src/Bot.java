@@ -5,7 +5,6 @@ import java.awt.*;
 public class Bot extends JLabel{
 /******************************************MEMBER-VARIABLES****************************************/
     private static Bot instance = null;
-    public static Board board = null;
     public JLabel deck_backside_label;
 
     public JLabel card_backside[] = new JLabel[4];
@@ -15,8 +14,10 @@ public class Bot extends JLabel{
     public ArrayList<Card> cards_in_hand = new ArrayList<>();
     public ArrayList<Card> collected_cards = new ArrayList<>();
 
+    private ArrayList<Card> current_board_cards = null;
+
 /******************************************CONSTRUCTORS********************************************/
-    private Bot(Board board) {
+    private Bot() {
         ImageIcon image = new ImageIcon("players/chad.png");
         Image resized = image.getImage().getScaledInstance(Constants.BOT_IMAGE_WIDTH, Constants.BOT_IMAGE_HEIGHT, java.awt.Image.SCALE_SMOOTH);
         image = new ImageIcon(resized);
@@ -27,9 +28,9 @@ public class Bot extends JLabel{
     }
 
 /******************************************PUBLIC-METHODES*****************************************/
-    public static Bot getInstance(Board board) {
+    public static Bot getInstance() {
         if(instance == null) {
-            instance = new Bot(board);
+            instance = new Bot();
         }
         return instance;
     }
@@ -56,8 +57,17 @@ public class Bot extends JLabel{
         return hand;
     }
 
-    public BotMove getMove() {
+    public BotMove getMove(ArrayList<Card> board_cards) {
+        current_board_cards = board_cards;
         BotMove move = null;
+
+        if(board_cards.size() > 3) {
+            move = imaliZandar(); 
+        }
+
+        if(move != null) {
+            return move;
+        }
 
         move = tryTakeOneCard();
 
@@ -66,11 +76,9 @@ public class Bot extends JLabel{
         }
         move = new BotMove();
         move.card_in_hand = findLowestValue();
-        move.move = MoveType.PUT;
+        move.move_type = MoveType.PUT;
         return move;
     }
-
-
 
 
 /******************************************PRIVATE-METHODES****************************************/
@@ -94,9 +102,9 @@ public class Bot extends JLabel{
 
     private Card findLowestValue() {
         Card lowest = null;
-        int lowest_value = 0;
+        int lowest_value = 15;
         for(Card card: cards_in_hand) {
-            if(card.value > lowest_value) {
+            if(card.value < lowest_value) {
                 lowest = card;
                 lowest_value = card.value;
             }
@@ -107,14 +115,29 @@ public class Bot extends JLabel{
     private BotMove tryTakeOneCard() {
         BotMove move = null;
         for(Card card_in_hand: cards_in_hand) {
-            for(Card card_on_board: board.cards) {
-                if(card_in_hand == card_on_board) {
+            for(Card card_on_board: current_board_cards) {
+                if(card_in_hand.value == card_on_board.value) {
                     move = new BotMove();
                     move.card_in_hand = card_in_hand;
                     move.board_cards.add(card_on_board);
-                    move.move = MoveType.TAKE;
+                    move.move_type = MoveType.TAKE;
                     break;
                 }
+            }
+        } 
+
+        return move;
+    }
+
+    private BotMove imaliZandar() {
+        BotMove move = null;
+        for(Card card: cards_in_hand) {
+            if(card.value == Constants.Zandar) {
+                move = new BotMove();
+                move.card_in_hand = card;
+                move.board_cards = new ArrayList<Card>(current_board_cards);
+                move.move_type = MoveType.TAKE;
+                break;
             }
         }
         return move;

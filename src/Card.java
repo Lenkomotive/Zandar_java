@@ -1,6 +1,7 @@
 import javax.swing.*;
 import javax.swing.border.*;
 
+
 import java.awt.event.*;
 import java.awt.*;
 
@@ -27,7 +28,8 @@ public class Card extends JLabel{
     public final String PATH = "cards/";
     public final String PATH_END = ".png";
     
-    public Border border = new LineBorder(new Color(200,170,0), 5);
+    public Border baoard_card_border = new LineBorder(Constants.GOLD, 5);
+    public Border player_card_boarder = new LineBorder(Constants.RED , 5);
 
 /******************************************CONSTRUCTORS********************************************/
     
@@ -51,17 +53,17 @@ public Card(CardSuit type, int value) {
 /******************************************PUBLIC-METHODES*****************************************/
     public void setPlayerCardActive() {
         player.setCardInactive();
-        this.setLocation(this.getLocation().x, this.getLocation().y - 20);
+        this.setBorder(player_card_boarder);
         state = CardState.ACTIVE_PLAYER_CARD;
     }
 
     public void setPlayerCardInactive() {
-        this.setLocation(this.getLocation().x, this.getLocation().y + 20);
+        this.setBorder(null);
         state = CardState.INACTIVE;
     }
 
     public void setBoardCardActive() {
-        this.setBorder(border);
+        this.setBorder(baoard_card_border);
         state = CardState.ACTIVE_BOARD_CARD;
     }
 
