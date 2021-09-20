@@ -30,6 +30,7 @@ public class Log {
             "<pre> SUM ACTIVE BOARD CARDS:          " + board.getActiveBoardCardValue() + "<br/>" +
             "<pre> NUM PLAYER CARDS COLLECTED:      " + player.collected_cards.size() + "<br/>"  +
             "<pre> NUM BOT CARDS COLLECTED:         " + bot.collected_cards.size() + "<br/>"  +
+            "<pre> BOT CARDS: " + bot.getHand() + "<br/>"  +
             "<html/>";
 
             board.log.setText(log_string);

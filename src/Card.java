@@ -6,7 +6,7 @@ import java.awt.*;
 
 enum CardSuit {CLUB, DIAMOND, HEART, SPADE};
 enum CardState {INACTIVE, ACTIVE_PLAYER_CARD, ACTIVE_BOARD_CARD};
-enum CardType{PLAYER_CARD, BOARD_CARD};
+enum CardType{PLAYER_CARD, BOARD_CARD, BOT_CARD};
 
 public class Card extends JLabel{
 

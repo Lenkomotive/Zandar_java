@@ -33,6 +33,7 @@ public class Game extends Thread {
                 Thread.sleep(600);
                 botMove();
             }
+            bot.initIndexList();
             dealPlayerCards();
         }
     }
@@ -86,11 +87,16 @@ public class Game extends Thread {
     }
 
     static void initBot() {
-        bot = Bot.getInstance();
+        bot = Bot.getInstance(board);
         board.add(bot);
         board.add(bot.deck_backside_label);
         bot.setLocation(Constants.BOT_IMAGE_POSITION_X, Constants.BOT_IMAGE_POSITION_Y);
         bot.deck_backside_label.setLocation(Constants.BOT_DECK_POSITION_X, Constants.BOT_DECK_POSITION_Y);
+        for(int i = 0, X = Constants.CARDS_MOST_LEFT_POSITION; i < 4; i++, X += Constants.BOARD_CARD_DISTANCE) {
+            board.add(bot.card_backside[i]);
+            bot.card_backside[i].setLocation(X, Constants.BOT_CARD_Y);
+            bot.card_backside[i].setVisible(false);
+        }
     }
 
     static void initDeck() {
@@ -109,9 +115,9 @@ public class Game extends Thread {
                 board.add(card);
                 card.setLocation(X, Constants.PLAYER_CARD_Y);
             } else {
+                card.type = CardType.BOT_CARD;
                 bot.cards_in_hand.add(card);
-                board.add(bot.card_backside[bot_card]);
-                bot.card_backside[bot_card].setLocation(X, Constants.BOT_CARD_Y);
+                bot.card_backside[bot_card].setVisible(true);
                 bot_card++;
             }
             X = dealt_cards == 2 ? X += Constants.PLAYER_CARD_DISTANCE : X;
@@ -211,6 +217,7 @@ public class Game extends Thread {
         bot.cards_in_hand.remove(active_card);
         board.cards.add(active_card);
         board.add(active_card);
+        active_card.type = CardType.BOARD_CARD;
         active_card.setVisible(true);
         active_card.setLocation(board.getNextCardPlace());
 
