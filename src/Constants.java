@@ -131,12 +131,23 @@ public interface Constants {
     int LOG_FONT_SIZE = 14;
 
     //!Card
+    String PATH_CLUB = "_of_clubs";
+    String PATH_DIAMOND = "_of_diamonds";
+    String PATH_SPADE = "_of_spades";
+    String PATH_HEART = "_of_hearts";
+    String PATH = "cards/";
+    String PATH_END = ".png";
+
     int CARD_WIDTH = 90;
     int CARD_HEIGHT = 120;
 
     int King = 13;
     int Queen = 12;
     int Zandar = 11;
+
+    //!Frame
+    int FRAME_WIDTH = 1500;
+    int FRAME_HEIGHT = 1000;
 
 
 }

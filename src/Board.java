@@ -5,32 +5,23 @@ import java.awt.event.*;
 import javax.swing.border.*;
 
 enum PlayMove {PUT, TAKE, NONE};
-enum ActivePlayer {PLAYER, BOT, NONE};
+enum ActivePlayer {PLAYER, BOT};
 
 public class Board extends JPanel implements ActionListener{
-/******************************************MEMBER-VARIABLES****************************************/
     private static Board instance = null;
-
     public ArrayList<Card> cards = new ArrayList<>();
-
     public LinkedHashMap<Point, Boolean> board_map = new LinkedHashMap<Point, Boolean>();
-
     public JButton put_btn;
     public JButton take_btn;
-
     public JLabel log;
-
     public PlayMove current_move = PlayMove.NONE;
 
-
-/******************************************CONSTRUCTORS********************************************/
     private Board() {
         this.setLayout(null);
         this.setBackground(Constants.GREEN);
         initBoardMap();
     }
 
-/******************************************PUBLIC-METHODES*****************************************/
     public static Board getInstance() {
         if(instance == null) {
             instance = new Board();
@@ -123,7 +114,6 @@ public class Board extends JPanel implements ActionListener{
         return next;
     }
 
-/******************************************PRIVATE-METHODES****************************************/
     private void initBoardMap() {
         for(int x = Constants.CARDS_MOST_LEFT_POSITION; x <= Constants.CARDS_MOST_RIGHT_POSITION; x += Constants.BOARD_CARD_DISTANCE) {
             board_map.put(new Point(x, Constants.BOARD_UPPER_CARD_Y), Boolean.FALSE); 

@@ -8,7 +8,8 @@ public class Game extends Thread {
     static Deck deck = null;
     static BotMove bot_move = null;
 
-    static ActivePlayer active_player = ActivePlayer.NONE;
+    static ActivePlayer active_player;
+    static ActivePlayer last_to_take;
 
     public static void main(String[] args) throws Exception {
         initStartScreen();
@@ -37,6 +38,21 @@ public class Game extends Thread {
             bot.initIndexList();
         }
 
+        switch (last_to_take) {
+            case PLAYER:
+                for(var card: board.cards) {
+                    card.setVisible(false);
+                    player.collected_cards.add(card);
+                }
+                break;
+            case BOT:
+                for(var card: board.cards) {
+                    card.setVisible(false);
+                    bot.collected_cards.add(card);
+                }
+        }
+
+        calcPoints();
     }
 
     static void initStartScreen() throws InterruptedException {
@@ -182,6 +198,7 @@ public class Game extends Thread {
                             }
                             break;
                     }
+                    last_to_take = ActivePlayer.PLAYER;
                     break;
                 default:
                     break;
@@ -240,6 +257,7 @@ public class Game extends Thread {
             board.board_map.put(card.getLocation(), Boolean.FALSE);
             card.setVisible(false);
         }
+        last_to_take = ActivePlayer.BOT;
     }
 
     public static void botPut() {
@@ -262,6 +280,30 @@ public class Game extends Thread {
         log_thread.start();
     }
 
+    public static void calcPoints() {
+        player.countPoints();
+        bot.countPoints();
+
+        int total_points_player = 0;
+        int total_points_bot = 0;
+
+        if(player.collected_cards.size() > bot.collected_cards.size()) {
+            total_points_player += 2;
+        } else if (player.collected_cards.size() < bot.collected_cards.size()) {
+            total_points_bot += 2;
+        }
+
+        if(player.num_clubs > bot.num_clubs) {
+            total_points_player++;
+        } else if (player.num_clubs < bot.num_clubs) {
+            total_points_bot++;
+        }
+        total_points_player += player.special_card_points;
+        total_points_bot += bot.special_card_points;
+
+        System.out.println("PLAYER: " + total_points_player + " BOT: " + total_points_bot);
+    }
+
     public void run() {
         while (true) {
             log.log();
@@ -271,6 +313,5 @@ public class Game extends Thread {
                 e.printStackTrace();
             }
         }
-
     }
 }

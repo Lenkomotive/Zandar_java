@@ -1,27 +1,19 @@
-import java.util.ArrayList;
-import java.util.Collections;
-
+import java.util.*;
 import javax.swing.*;
 import java.awt.*;
 
 public class Deck{
-/******************************************MEMBER-VARIABLES****************************************/
     private static Deck instance = null;
-
     public ArrayList<Card> cards = new ArrayList<>();
-    Player player;
-
+    private Player player;
     public JLabel deck_backside_label;
 
-/******************************************CONSTRUCTORS********************************************/
-   
     private Deck(Player player) {
         this.player = player;
         initDeck();
         initDeckLabels();
     }
 
-/******************************************PUBLIC-METHODES*****************************************/
     public static Deck getInstance(Player player) {
         if(instance == null) {
             instance = new Deck(player);
@@ -29,15 +21,12 @@ public class Deck{
         return instance;
     }
 
-
     public Card getCard() {
         Card card = cards.get(cards.size() - 1);
         cards.remove(cards.size() - 1);
         return card;
     }
 
-/******************************************PRIVATE-METHODES****************************************/
-    
     private void initDeck() {
         Card.player = player;
         for(int value = 1; value <= 13; value++) {

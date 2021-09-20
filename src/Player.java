@@ -1,34 +1,23 @@
 import javax.swing.*;
-
 import java.awt.*;
 import java.util.*;
 
 enum PlayerType {NONE, PLAYER_1, PLAYER_2, PLAYER_3, PLAYER_4};
 
 public class Player extends JLabel{
-/******************************************MEMBER-VARIABLES****************************************/
     private static Player instance = null;
-
     public JLabel deck_backside_label;
-
-    public ArrayList<Card> cards_in_hand = new ArrayList<>();
-    public ArrayList<Card> collected_cards = new ArrayList<>();
-
+    public ArrayList<Card> cards_in_hand = new ArrayList<Card>();
+    public ArrayList<Card> collected_cards = new ArrayList<Card>();
     public boolean card_chosen = false;
-
-/******************************************CONSTRUCTORS********************************************/
+    public int num_clubs = 0;
+    public int special_card_points = 0;
 
     private Player(PlayerType player) {
-        ImageIcon image = new ImageIcon("players/player" + player.ordinal() + ".png");
-        Image resized = image.getImage().getScaledInstance(Constants.PLAYER_IMAGE_WIDTH, Constants.PLAYER_IMAGE_HEIGHT, java.awt.Image.SCALE_SMOOTH);
-        image = new ImageIcon(resized);
-        this.setIcon(image);
-        this.setSize(Constants.PLAYER_IMAGE_WIDTH, Constants.PLAYER_IMAGE_HEIGHT);
+        initPlayerImage(player);
         initDeckLabels();
     }
 
-
-/******************************************PUBLIC-METHODES*****************************************/
     public static Player getInstance(PlayerType player) {
         if(instance == null) {
             instance = new Player(player);
@@ -86,7 +75,6 @@ public class Player extends JLabel{
         return 0;
     }
 
-/******************************************PRIVATE-METHODES****************************************/
     public Card getActiveCard() {
         Card active_card = null;
         for(Card card: cards_in_hand) {
@@ -95,7 +83,26 @@ public class Player extends JLabel{
             }
         }
         return active_card;
-    }    
+    }
+
+    public void countPoints() {
+        for(Card card: collected_cards) {
+            if((card.value == 10 && card.suit == CardSuit.DIAMOND) || (card.value == 2 && card.suit == CardSuit.CLUB)) {
+                special_card_points++;
+            }
+            if(card.suit == CardSuit.CLUB) {
+                num_clubs++;
+            }
+        }
+    }
+
+    private void initPlayerImage(PlayerType player) {
+        ImageIcon image = new ImageIcon("players/player" + player.ordinal() + ".png");
+        Image resized = image.getImage().getScaledInstance(Constants.PLAYER_IMAGE_WIDTH, Constants.PLAYER_IMAGE_HEIGHT, java.awt.Image.SCALE_SMOOTH);
+        image = new ImageIcon(resized);
+        this.setIcon(image);
+        this.setSize(Constants.PLAYER_IMAGE_WIDTH, Constants.PLAYER_IMAGE_HEIGHT);
+    }
 
     private void initDeckLabels() {
         deck_backside_label = new JLabel();

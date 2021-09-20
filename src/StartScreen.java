@@ -4,26 +4,16 @@ import java.awt.event.*;
 import javax.swing.border.*;
 
 public class StartScreen extends JPanel implements ActionListener{
-
-/******************************************MEMBER-VARIABLES****************************************/
-    
     public JLabel choose_player_label;
-
     public JButton start_btn;
     public JButton player_1_btn;
     public JButton player_2_btn;
     public JButton player_3_btn;
     public JButton player_4_btn;
-
     public boolean start_game = false;
     private PlayerType choosen_player = PlayerType.NONE;
-
     public Border border = new LineBorder(Constants.GOLD, 8);
-
     private static StartScreen instance = null;
-
-
-/******************************************CONSTRUCTORS********************************************/
     
     private StartScreen() {
         this.setLayout(null);
@@ -31,7 +21,6 @@ public class StartScreen extends JPanel implements ActionListener{
         this.setVisible(true);
     }
 
-/******************************************PUBLIC-METHODES*****************************************/
     public static StartScreen getInstance() {
         if(instance == null) {
             instance = new StartScreen();
@@ -120,8 +109,6 @@ public class StartScreen extends JPanel implements ActionListener{
         choose_player_label.setSize(Constants.CHOOSE_PLAYER_LABEL_WIDTH, Constants.CHOOSE_PLAYER_LABEL_HEIGHT);
     }
 
-
-/******************************************PRIVATE-METHODES****************************************/
     private void unsetAllBorders() {
         player_1_btn.setBorder(null);
         player_2_btn.setBorder(null);

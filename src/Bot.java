@@ -3,20 +3,16 @@ import java.util.*;
 import java.awt.*;
 
 public class Bot extends JLabel{
-/******************************************MEMBER-VARIABLES****************************************/
     private static Bot instance = null;
     public JLabel deck_backside_label;
-
     public JLabel card_backside[] = new JLabel[4];
-    ArrayList<Integer> card_backside_index = new ArrayList<Integer>();
-
-
-    public ArrayList<Card> cards_in_hand = new ArrayList<>();
-    public ArrayList<Card> collected_cards = new ArrayList<>();
-
+    public ArrayList<Integer> card_backside_index = new ArrayList<Integer>();
+    public ArrayList<Card> cards_in_hand = new ArrayList<Card>();
+    public ArrayList<Card> collected_cards = new ArrayList<Card>();
     private ArrayList<Card> current_board_cards = null;
+    public int num_clubs = 0;
+    public int special_card_points = 0;
 
-/******************************************CONSTRUCTORS********************************************/
     private Bot() {
         ImageIcon image = new ImageIcon("players/chad.png");
         Image resized = image.getImage().getScaledInstance(Constants.BOT_IMAGE_WIDTH, Constants.BOT_IMAGE_HEIGHT, java.awt.Image.SCALE_SMOOTH);
@@ -27,7 +23,6 @@ public class Bot extends JLabel{
         initIndexList();
     }
 
-/******************************************PUBLIC-METHODES*****************************************/
     public static Bot getInstance() {
         if(instance == null) {
             instance = new Bot();
@@ -80,8 +75,17 @@ public class Bot extends JLabel{
         return move;
     }
 
+    public void countPoints() {
+        for(Card card: collected_cards) {
+            if((card.value == 10 && card.suit == CardSuit.DIAMOND) || (card.value == 2 && card.suit == CardSuit.CLUB)) {
+                special_card_points++;
+            }
+            if(card.suit == CardSuit.CLUB) {
+                num_clubs++;
+            }
+        }
+    }
 
-/******************************************PRIVATE-METHODES****************************************/
     private void initDeckLabels() {
         deck_backside_label = new JLabel();
         ImageIcon image = new ImageIcon("cards/backside_deck.png");

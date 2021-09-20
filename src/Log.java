@@ -1,6 +1,5 @@
 public class Log {
     private static Log instance = null;
-
     private Player player;
     private Bot bot;
     private Deck deck;
