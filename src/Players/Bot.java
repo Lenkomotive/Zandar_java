@@ -1,4 +1,10 @@
+package Players;
 import javax.swing.*;
+
+import Card.Card;
+import Constants.Types.*;
+import Constants.Constants;
+
 import java.util.*;
 import java.awt.*;
 

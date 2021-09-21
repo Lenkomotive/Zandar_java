@@ -1,4 +1,7 @@
+package Frame;
 import javax.swing.*;
+
+import Constants.Constants;
 
 public class MyFrame extends JFrame{
     private static MyFrame instance = null;

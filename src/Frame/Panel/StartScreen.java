@@ -1,7 +1,10 @@
+package Frame.Panel;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.border.*;
+import Constants.Types.PlayerType;
+import Constants.Constants;
 
 public class StartScreen extends JPanel implements ActionListener{
     public JLabel choose_player_label;

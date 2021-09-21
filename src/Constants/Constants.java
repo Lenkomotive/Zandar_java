@@ -1,9 +1,10 @@
+package Constants;
 import java.awt.*;
 
 public interface Constants {
 
     //!Game
-    int TOTAL_CARDS = 52;
+    public int TOTAL_CARDS = 52;
     int NUM_PLAYERS = 4;
 
     int NUM_CARDS_IN_HAND = 4;

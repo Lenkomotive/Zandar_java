@@ -1,8 +1,13 @@
+package Players;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 
-enum PlayerType {NONE, PLAYER_1, PLAYER_2, PLAYER_3, PLAYER_4};
+import Card.*;
+import Constants.Types.*;
+import Constants.*;
+
 
 public class Player extends JLabel{
     private static Player instance = null;

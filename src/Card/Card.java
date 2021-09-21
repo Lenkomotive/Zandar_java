@@ -1,11 +1,13 @@
+package Card;
 import javax.swing.*;
 import javax.swing.border.*;
+
+import Constants.Constants;
+import Players.Player;
+import Constants.Types.*;
+
 import java.awt.event.*;
 import java.awt.*;
-
-enum CardSuit  {CLUB, DIAMOND, HEART, SPADE};
-enum CardState {INACTIVE, ACTIVE_PLAYER_CARD, ACTIVE_BOARD_CARD};
-enum CardType  {PLAYER_CARD, BOARD_CARD, BOT_CARD};
 
 public class Card extends JLabel{
     public static Player player;

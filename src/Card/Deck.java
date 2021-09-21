@@ -1,5 +1,11 @@
+package Card;
 import java.util.*;
 import javax.swing.*;
+
+import Constants.Constants;
+import Players.Player;
+import Constants.Types.CardSuit;
+
 import java.awt.*;
 
 public class Deck{
