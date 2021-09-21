@@ -1,13 +1,13 @@
 package Card;
+
 import javax.swing.*;
 import javax.swing.border.*;
+import java.awt.event.*;
+import java.awt.*;
 
 import Constants.Constants;
 import Players.Player;
 import Constants.Types.*;
-
-import java.awt.event.*;
-import java.awt.*;
 
 public class Card extends JLabel{
     public static Player player;

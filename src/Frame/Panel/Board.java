@@ -1,4 +1,5 @@
 package Frame.Panel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
@@ -8,8 +9,6 @@ import javax.swing.border.*;
 import Card.Card;
 import Constants.Constants;
 import Constants.Types.*;
-
-
 
 public class Board extends JPanel implements ActionListener{
     private static Board instance = null;

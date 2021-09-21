@@ -1,12 +1,12 @@
 package Card;
+
 import java.util.*;
+import java.awt.*;
 import javax.swing.*;
 
 import Constants.Constants;
 import Players.Player;
 import Constants.Types.CardSuit;
-
-import java.awt.*;
 
 public class Deck{
     private static Deck instance = null;

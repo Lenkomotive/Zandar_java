@@ -1,4 +1,5 @@
 package Game;
+
 import Card.*;
 import Constants.Types.*;
 import Constants.Constants;
@@ -6,8 +7,7 @@ import Frame.MyFrame;
 import Frame.Panel.*;
 import Players.*;
 
-
-public class Game extends Thread {
+public class Zandar extends Thread {
     static MyFrame frame = MyFrame.getInstance();
     static StartScreen start_screen = StartScreen.getInstance();
     static Log log = Log.getInstance();
@@ -285,7 +285,7 @@ public class Game extends Thread {
         board.add(board.log);
         board.log.setLocation(Constants.LOG_X, Constants.LOG_Y);
         log.initLog(player, bot, board, deck);
-        Game log_thread = new Game();
+        Zandar log_thread = new Zandar();
         log_thread.start();
     }
 
