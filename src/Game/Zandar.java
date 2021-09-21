@@ -27,8 +27,8 @@ public class Zandar extends Thread {
         initBot();
         initDeck();
         //startLog();
-        
-        active_player = ActivePlayer.PLAYER;
+
+        active_player = ActivePlayer.BOT;
         boolean first_round = true;
         while (deck.cards.size() != 0) {
             dealPlayerCards();
@@ -172,6 +172,10 @@ public class Zandar extends Thread {
                     break;
                 case TAKE: //! player awähla, board awähla, player abwähla, take
                     Card active_card = player.getActiveCard();
+                    if(active_card == null) {
+                        board.setCardsInactive();
+                        break;
+                    }
                     int board_value = board.getActiveBoardCardValue();
                     switch (active_card.value) {
                         case Constants.Queen: case Constants.King:
@@ -293,7 +297,7 @@ public class Zandar extends Thread {
         String result = PointCalculator.getResult(player, bot);
         board.initPointsLabel();
         board.add(board.points);
-        board.points.setLocation(350,200);
+        board.points.setLocation(Constants.POINTS_X, Constants.POINTS_Y);
         board.points.setText(result);
     }
 

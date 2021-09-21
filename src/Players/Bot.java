@@ -171,7 +171,7 @@ public class Bot extends JLabel{
                     card_on_board.setBorder(board_card_border);
                     move.board_cards.add(card_on_board);
                     move.move_type = MoveType.TAKE;
-                    break;
+                    return move;
                 }
             }
         } 
