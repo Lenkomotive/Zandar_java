@@ -17,6 +17,7 @@ public class Board extends JPanel implements ActionListener{
     public JButton put_btn;
     public JButton take_btn;
     public JLabel log;
+    public JLabel points;
     public PlayMove current_move = PlayMove.NONE;
 
     private Board() {
@@ -93,6 +94,13 @@ public class Board extends JPanel implements ActionListener{
         take_btn.setSize(Constants.TAKE_BUTTON_WIDTH + 10, Constants.TAKE_BUTTON_HEIGHT + 10);
         take_btn.setBackground(Color.black);
         take_btn.addActionListener(this);
+    }
+
+    public void initPointsLabel() {
+        points = new JLabel("LENK");
+        points.setSize(Constants.LOG_WIDTH, Constants.LOG_HEIGHT);
+        points.setFont(new Font("Arial", Font.BOLD, Constants.LOG_FONT_SIZE));
+        points.setForeground(Color.black);
     }
 
     public void initLogLabel() {

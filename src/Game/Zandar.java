@@ -26,8 +26,8 @@ public class Zandar extends Thread {
         initPlayer();
         initBot();
         initDeck();
-        startLog();
-
+        //startLog();
+        
         active_player = ActivePlayer.PLAYER;
         boolean first_round = true;
         while (deck.cards.size() != 0) {
@@ -290,27 +290,11 @@ public class Zandar extends Thread {
     }
 
     public static void calcPoints() {
-        player.countPoints();
-        bot.countPoints();
-
-        int total_points_player = 0;
-        int total_points_bot = 0;
-
-        if(player.collected_cards.size() > bot.collected_cards.size()) {
-            total_points_player += 2;
-        } else if (player.collected_cards.size() < bot.collected_cards.size()) {
-            total_points_bot += 2;
-        }
-
-        if(player.num_clubs > bot.num_clubs) {
-            total_points_player++;
-        } else if (player.num_clubs < bot.num_clubs) {
-            total_points_bot++;
-        }
-        total_points_player += player.special_card_points;
-        total_points_bot += bot.special_card_points;
-
-        System.out.println("PLAYER: " + total_points_player + " BOT: " + total_points_bot);
+        String result = PointCalculator.getResult(player, bot);
+        board.initPointsLabel();
+        board.add(board.points);
+        board.points.setLocation(350,200);
+        board.points.setText(result);
     }
 
     public void run() {
