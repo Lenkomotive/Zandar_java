@@ -170,7 +170,7 @@ public class Zandar extends Thread {
                     card_to_put.setLocation(board.getNextCardPlace());
                     move_successfull = true;
                     break;
-                case TAKE: //! player awähla, board awähla, player abwähla, take
+                case TAKE:
                     Card active_card = player.getActiveCard();
                     if(active_card == null) {
                         board.setCardsInactive();
