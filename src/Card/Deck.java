@@ -1,35 +1,40 @@
-import java.util.ArrayList;
-import java.util.Collections;
-
+package Card;
+import java.util.*;
 import javax.swing.*;
+
+import Constants.Constants;
+import Players.Player;
+import Constants.Types.CardSuit;
+
 import java.awt.*;
 
 public class Deck{
-/******************************************MEMBER-VARIABLES****************************************/
-  
+    private static Deck instance = null;
     public ArrayList<Card> cards = new ArrayList<>();
-
+    private Player player;
     public JLabel deck_backside_label;
-    public JLabel num_cards_label;
 
-/******************************************CONSTRUCTORS********************************************/
-   
-    public Deck() {
+    private Deck(Player player) {
+        this.player = player;
         initDeck();
         initDeckLabels();
     }
 
-/******************************************PUBLIC-METHODES*****************************************/
-    
+    public static Deck getInstance(Player player) {
+        if(instance == null) {
+            instance = new Deck(player);
+        }
+        return instance;
+    }
+
     public Card getCard() {
         Card card = cards.get(cards.size() - 1);
         cards.remove(cards.size() - 1);
         return card;
     }
 
-/******************************************PRIVATE-METHODES****************************************/
-    
     private void initDeck() {
+        Card.player = player;
         for(int value = 1; value <= 13; value++) {
             cards.add(new Card(CardSuit.CLUB, value));
             cards.add(new Card(CardSuit.DIAMOND, value));
@@ -46,9 +51,5 @@ public class Deck{
         image = new ImageIcon(resized);
         deck_backside_label.setIcon(image);
         deck_backside_label.setSize(Constants.DECK_DECK_WIDTH, Constants.DECK_DECK_HEIGHT);
-
-        num_cards_label = new JLabel("52");
-        num_cards_label.setFont(new Font("Arial", Font.BOLD, Constants.DECK_NUM_CARD_FONT_SIZE));
-        num_cards_label.setSize(Constants.DECK_NUM_CARD_WIDTH, Constants.DECK_NUM_CARD_HEIGHT);
     }
 }
