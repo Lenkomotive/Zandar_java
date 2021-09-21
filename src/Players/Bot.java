@@ -17,8 +17,6 @@ public class Bot extends JLabel{
     public ArrayList<Card> cards_in_hand = new ArrayList<Card>();
     public ArrayList<Card> collected_cards = new ArrayList<Card>();
     private ArrayList<Card> current_board_cards = null;
-    public int num_clubs = 0;
-    public int special_card_points = 0;
     public Border board_card_border = new LineBorder(Constants.GOLD, 5);
 
     private Bot() {
@@ -85,15 +83,21 @@ public class Bot extends JLabel{
         return move;
     }
 
-    public void countPoints() {
+    public Points countPoints() {
+        Points points = new Points();
         for(Card card: collected_cards) {
-            if((card.value == 10 && card.suit == CardSuit.DIAMOND) || (card.value == 2 && card.suit == CardSuit.CLUB)) {
-                special_card_points++;
+            if (card.value == 10 && card.suit == CardSuit.DIAMOND) {
+                points.velika = true;
             }
-            if(card.suit == CardSuit.CLUB) {
-                num_clubs++;
+            if (card.value == 2 && card.suit == CardSuit.CLUB) {
+                points.mala = true;
+            }
+            if (card.suit == CardSuit.CLUB) {
+                points.num_clubs++;
             }
         }
+        points.num_cards = collected_cards.size();
+        return points;
     }
 
     private void initDeckLabels() {
@@ -138,7 +142,9 @@ public class Bot extends JLabel{
             }
             for(int first_card = 0; first_card < current_board_cards.size() - 1; first_card++) {
                 for(int second_card = first_card + 1; second_card < current_board_cards.size(); second_card++) {
-                    if((current_board_cards.get(first_card).value + current_board_cards.get(second_card).value) == card_in_hand.value) {
+                    int first_card_value = current_board_cards.get(first_card).value;
+                    int second_card_value = current_board_cards.get(second_card).value;
+                    if((first_card_value + second_card_value) == card_in_hand.value) {
                         move = new BotMove();
                         move.card_in_hand = card_in_hand;
                         current_board_cards.get(first_card).setBorder(board_card_border);
@@ -146,7 +152,7 @@ public class Bot extends JLabel{
                         move.board_cards.add(current_board_cards.get(first_card));
                         move.board_cards.add(current_board_cards.get(second_card));
                         move.move_type = MoveType.TAKE;
-                        break;
+                        return move;
                     }
                 }
             }

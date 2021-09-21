@@ -14,8 +14,9 @@ public class Player extends JLabel{
     public ArrayList<Card> cards_in_hand = new ArrayList<Card>();
     public ArrayList<Card> collected_cards = new ArrayList<Card>();
     public boolean card_chosen = false;
-    public int num_clubs = 0;
-    public int special_card_points = 0;
+    public int num_clubs;
+    public boolean malena = false;
+    public boolean velika = false;
 
     private Player(PlayerType player) {
         initPlayerImage(player);
@@ -89,15 +90,21 @@ public class Player extends JLabel{
         return active_card;
     }
 
-    public void countPoints() {
+    public Points countPoints() {
+        Points points = new Points();
         for(Card card: collected_cards) {
-            if((card.value == 10 && card.suit == CardSuit.DIAMOND) || (card.value == 2 && card.suit == CardSuit.CLUB)) {
-                special_card_points++;
+            if (card.value == 10 && card.suit == CardSuit.DIAMOND) {
+                points.velika = true;
             }
-            if(card.suit == CardSuit.CLUB) {
-                num_clubs++;
+            if (card.value == 2 && card.suit == CardSuit.CLUB) {
+                points.mala = true;
+            }
+            if (card.suit == CardSuit.CLUB) {
+                points.num_clubs++;
             }
         }
+        points.num_cards = collected_cards.size();
+        return points;
     }
 
     private void initPlayerImage(PlayerType player) {
