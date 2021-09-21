@@ -8,7 +8,6 @@ import Card.*;
 import Constants.Types.*;
 import Constants.*;
 
-
 public class Player extends JLabel{
     private static Player instance = null;
     public JLabel deck_backside_label;

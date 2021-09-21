@@ -1,12 +1,13 @@
 package Players;
+
 import javax.swing.*;
+import java.util.*;
+import java.awt.*;
+import javax.swing.border.*;
 
 import Card.Card;
 import Constants.Types.*;
 import Constants.Constants;
-
-import java.util.*;
-import java.awt.*;
 
 public class Bot extends JLabel{
     private static Bot instance = null;
@@ -18,6 +19,7 @@ public class Bot extends JLabel{
     private ArrayList<Card> current_board_cards = null;
     public int num_clubs = 0;
     public int special_card_points = 0;
+    public Border board_card_border = new LineBorder(Constants.GOLD, 5);
 
     private Bot() {
         ImageIcon image = new ImageIcon("players/chad.png");
@@ -62,19 +64,21 @@ public class Bot extends JLabel{
         current_board_cards = board_cards;
         BotMove move = null;
 
-        if(board_cards.size() > 3) {
-            move = imaliZandar(); 
-        }
-
+        move = tryTakeTwoCards();
         if(move != null) {
             return move;
         }
 
         move = tryTakeOneCard();
-
         if(move != null) {
             return move;
         }
+
+        move = imaliZandar(); 
+        if(move != null) {
+            return move;
+        }
+
         move = new BotMove();
         move.card_in_hand = findLowestValue();
         move.move_type = MoveType.PUT;
@@ -122,6 +126,35 @@ public class Bot extends JLabel{
         return lowest;
     }
 
+    private BotMove tryTakeTwoCards() {
+        BotMove move = null;
+        if(current_board_cards.size() < 2) {
+            return move;
+        }
+
+        for(Card card_in_hand: cards_in_hand) {
+            if(card_in_hand.value == Constants.Queen || card_in_hand.value == Constants.King) {
+                continue;
+            }
+            for(int first_card = 0; first_card < current_board_cards.size() - 1; first_card++) {
+                for(int second_card = first_card + 1; second_card < current_board_cards.size(); second_card++) {
+                    if((current_board_cards.get(first_card).value + current_board_cards.get(second_card).value) == card_in_hand.value) {
+                        move = new BotMove();
+                        move.card_in_hand = card_in_hand;
+                        current_board_cards.get(first_card).setBorder(board_card_border);
+                        current_board_cards.get(second_card).setBorder(board_card_border);
+                        move.board_cards.add(current_board_cards.get(first_card));
+                        move.board_cards.add(current_board_cards.get(second_card));
+                        move.move_type = MoveType.TAKE;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return move;
+    }     
+
     private BotMove tryTakeOneCard() {
         BotMove move = null;
         for(Card card_in_hand: cards_in_hand) {
@@ -129,6 +162,7 @@ public class Bot extends JLabel{
                 if(card_in_hand.value == card_on_board.value) {
                     move = new BotMove();
                     move.card_in_hand = card_in_hand;
+                    card_on_board.setBorder(board_card_border);
                     move.board_cards.add(card_on_board);
                     move.move_type = MoveType.TAKE;
                     break;

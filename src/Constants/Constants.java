@@ -1,4 +1,5 @@
 package Constants;
+
 import java.awt.*;
 
 public interface Constants {
@@ -58,7 +59,7 @@ public interface Constants {
     int BOT_NUM_CARD_HEIGHT = 50;
 
     int BOT_SHOW_CARD_TO_PLAY_X = 790;
-    int BOT_SHOW_CARD_TIME = 1000;
+    int BOT_SHOW_CARD_TIME = 1500;
 
     //!Deck
     int DECK_DECK_WIDTH = 140;
