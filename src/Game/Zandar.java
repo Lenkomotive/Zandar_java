@@ -6,6 +6,8 @@ import Constants.Constants;
 import Frame.MyFrame;
 import Frame.Panel.*;
 import Players.*;
+import java.awt.event.WindowEvent;
+
 
 public class Zandar extends Thread {
     static MyFrame frame = MyFrame.getInstance();
@@ -22,46 +24,50 @@ public class Zandar extends Thread {
 
     public static void main(String[] args) throws Exception {
         initStartScreen();
-        initBoard();
+        initBoard(); 
         initPlayer();
         initBot();
         initDeck();
         //startLog();
-        
-        active_player = ActivePlayer.PLAYER;
-        boolean first_round = true;
-        while (deck.cards.size() != 0) {
-            dealPlayerCards();
-            if(deck.cards.size() == 0) {
-                deck.deck_backside_label.setVisible(false);
-            }
-            if(first_round) {
-                dealBoardCards();
-                first_round = false;
-            }
-            for(int move = 0, current_player = active_player.ordinal(); move < 8; move++) {
-                current_player = current_player == ActivePlayer.PLAYER.ordinal()? playerMove() : botMove();
-                Thread.sleep(Constants.SLEEP_BETWEEN_MOVE);
-            }
-            active_player = active_player == ActivePlayer.BOT? ActivePlayer.PLAYER: ActivePlayer.BOT;
-            bot.initIndexList();
-        }
 
-        switch (last_to_take) {
-            case PLAYER:
-                for(var card: board.cards) {
-                    card.setVisible(false);
-                    player.collected_cards.add(card);
+        while(board.play_again) {
+            board.play_again = false;
+            active_player = ActivePlayer.PLAYER;
+            boolean first_round = true;
+            while (deck.cards.size() != 0) {
+                dealPlayerCards();
+                if(deck.cards.size() == 0) {
+                    deck.deck_backside_label.setVisible(false);
                 }
-                break;
-            case BOT:
-                for(var card: board.cards) {
-                    card.setVisible(false);
-                    bot.collected_cards.add(card);
+                if(first_round) {
+                    dealBoardCards();
+                    first_round = false;
                 }
-        }
+                for(int move = 0, current_player = active_player.ordinal(); move < 8; move++) {
+                    current_player = current_player == ActivePlayer.PLAYER.ordinal()? playerMove() : botMove();
+                    Thread.sleep(Constants.SLEEP_BETWEEN_MOVE);
+                }
+                active_player = active_player == ActivePlayer.BOT? ActivePlayer.PLAYER: ActivePlayer.BOT;
+                bot.initIndexList();
+            }
+    
+            switch (last_to_take) {
+                case PLAYER:
+                    for(var card: board.cards) {
+                        card.setVisible(false);
+                        player.collected_cards.add(card);
+                    }
+                    break;
+                case BOT:
+                    for(var card: board.cards) {
+                        card.setVisible(false);
+                        bot.collected_cards.add(card);
+                    }
+            }
 
-        calcPoints();
+            calcPoints();
+            askPlayAgain();
+        }
     }
 
     static void initStartScreen() throws InterruptedException {
@@ -92,10 +98,24 @@ public class Zandar extends Thread {
         frame.add(board);
         board.initPutBtn();
         board.initTakeBtn();
+        board.initYesBtn();
+        board.initNoBtn();
+        board.initPlayAgainLabel();
+
         board.add(board.put_btn);
         board.add(board.take_btn);
+        board.add(board.yes_btn);
+        board.add(board.no_btn);
+        board.add(board.play_again_label);
+
         board.put_btn.setLocation(Constants.PUT_BUTTON_X, Constants.PUT_BUTTON_Y);
         board.take_btn.setLocation(Constants.TAKE_BUTTON_X, Constants.TAKE_BUTTON_Y);
+        board.yes_btn.setLocation(Constants.YES_BUTTON_X, Constants.YES_BUTTON_Y);
+        board.no_btn.setLocation(Constants.NO_BUTTON_X, Constants.NO_BUTTON_Y);
+        board.play_again_label.setLocation(Constants.PLAY_AGAIN_LABEL_X, Constants.PLAY_AGAIN_LABEL_Y);
+        board.yes_btn.setVisible(false); 
+        board.no_btn.setVisible(false);
+        board.play_again_label.setVisible(false);
     }
 
     static void initPlayer() {
@@ -170,8 +190,12 @@ public class Zandar extends Thread {
                     card_to_put.setLocation(board.getNextCardPlace());
                     move_successfull = true;
                     break;
-                case TAKE: //! player awähla, board awähla, player abwähla, take
+                case TAKE:
                     Card active_card = player.getActiveCard();
+                    if(active_card == null) {
+                        board.setCardsInactive();
+                        break;
+                    }
                     int board_value = board.getActiveBoardCardValue();
                     switch (active_card.value) {
                         case Constants.Queen: case Constants.King:
@@ -237,6 +261,12 @@ public class Zandar extends Thread {
             Thread.sleep(50);
         }
     }
+
+    static void waitPlayAgainDecision() throws InterruptedException {
+        while(board.decision_made == false) {
+            Thread.sleep(50);
+        }
+    }
  
     static int botMove() throws InterruptedException{
         bot.hideCardBackside();
@@ -293,8 +323,37 @@ public class Zandar extends Thread {
         String result = PointCalculator.getResult(player, bot);
         board.initPointsLabel();
         board.add(board.points);
-        board.points.setLocation(350,200);
+        board.points.setVisible(true);
+        board.points.setLocation(Constants.POINTS_X, Constants.POINTS_Y);
         board.points.setText(result);
+    }
+
+    public static void askPlayAgain() throws InterruptedException{
+        board.yes_btn.setVisible(true);
+        board.no_btn.setVisible(true);
+        board.play_again_label.setVisible(true);
+
+        waitPlayAgainDecision();
+        
+        if(board.play_again == true) {
+            board.decision_made = false;
+            resetGame();
+            board.yes_btn.setVisible(false);
+            board.no_btn.setVisible(false);
+            board.play_again_label.setVisible(false);
+        } else {
+            frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+        }
+    }
+
+    public static void resetGame() {
+        deck.reshuffle();
+        board.cards.clear();
+        player.collected_cards.clear();
+        bot.collected_cards.clear();
+        board.points.setVisible(false);
+        board.initBoardMap();
+        deck.deck_backside_label.setVisible(true);
     }
 
     public void run() {

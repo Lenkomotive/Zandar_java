@@ -16,7 +16,7 @@ public interface Constants {
     Color GOLD = new Color(200,170,0);
     Color RED = new Color(255,40,40);
 
-    int SLEEP_BETWEEN_DEALING = 200;
+    int SLEEP_BETWEEN_DEALING = 100;
     int SLEEP_BETWEEN_MOVE = 600;
 
     //!Player
@@ -59,7 +59,7 @@ public interface Constants {
     int BOT_NUM_CARD_HEIGHT = 50;
 
     int BOT_SHOW_CARD_TO_PLAY_X = 790;
-    int BOT_SHOW_CARD_TIME = 1500;
+    int BOT_SHOW_CARD_TIME = 1000;
 
     //!Deck
     int DECK_DECK_WIDTH = 140;
@@ -124,13 +124,30 @@ public interface Constants {
     int TAKE_BUTTON_X = 1300;
     int TAKE_BUTTON_Y = 830;
 
+    int YES_BUTTON_WIDTH = 65;
+    int YES_BUTTON_HEIGHT = 40;
+    int YES_BUTTON_X = 350;
+    int YES_BUTTON_Y = 700;
+
+    int NO_BUTTON_WIDTH = 60;
+    int NO_BUTTON_HEIGHT = 40;
+    int NO_BUTTON_X = 450;
+    int NO_BUTTON_Y = 700;
+
+    int PLAY_AGAIN_LABEL_X = 350;
+    int PLAY_AGAIN_LABEL_Y = 650;
+    int PLAY_AGAIN_LABEL_WIDTH = 300;
+    int PLAY_AGAIN_LABEL_HEIGHT = 40;
+
     int LOG_WIDTH = 320;
-    int LOG_HEIGHT = 400;
+    int LOG_HEIGHT = 300;
     int LOG_X = 1150;
     int LOG_Y = 50;
     int LOG_UPDATE_TIME = 200;
-
     int LOG_FONT_SIZE = 14;
+
+    int POINTS_X = 350;
+    int POINTS_Y = 200;
 
     //!Card
     String PATH_CLUB = "_of_clubs";
