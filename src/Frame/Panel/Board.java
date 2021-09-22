@@ -16,9 +16,14 @@ public class Board extends JPanel implements ActionListener{
     public LinkedHashMap<Point, Boolean> board_map = new LinkedHashMap<Point, Boolean>();
     public JButton put_btn;
     public JButton take_btn;
+    public JButton yes_btn;
+    public JButton no_btn;
     public JLabel log;
     public JLabel points;
+    public JLabel play_again_label;
     public PlayMove current_move = PlayMove.NONE;
+    public boolean play_again = true;
+    public boolean decision_made = false;
 
     private Board() {
         this.setLayout(null);
@@ -76,6 +81,14 @@ public class Board extends JPanel implements ActionListener{
         if(e.getSource() == take_btn) {
             current_move = PlayMove.TAKE;
         }
+        if(e.getSource() == yes_btn) {
+            play_again = true;
+            decision_made = true;
+        }
+        if(e.getSource() == no_btn) {
+            play_again = false;
+            decision_made = true;
+        }
     }
 
     public void initPutBtn() {
@@ -94,6 +107,31 @@ public class Board extends JPanel implements ActionListener{
         take_btn.setSize(Constants.TAKE_BUTTON_WIDTH + 10, Constants.TAKE_BUTTON_HEIGHT + 10);
         take_btn.setBackground(Color.black);
         take_btn.addActionListener(this);
+    }
+
+    public void initYesBtn() {
+        ImageIcon image = new ImageIcon("buttons/yes.png");
+        Image resized = image.getImage().getScaledInstance(Constants.YES_BUTTON_WIDTH, Constants.YES_BUTTON_HEIGHT, java.awt.Image.SCALE_SMOOTH);
+        yes_btn = new JButton(new ImageIcon(resized));
+        yes_btn.setSize(Constants.YES_BUTTON_WIDTH + 10, Constants.YES_BUTTON_HEIGHT + 10);
+        yes_btn.setBackground(Color.black);
+        yes_btn.addActionListener(this);
+    }
+
+    public void initNoBtn() {
+        ImageIcon image = new ImageIcon("buttons/no.png");
+        Image resized = image.getImage().getScaledInstance(Constants.NO_BUTTON_WIDTH, Constants.NO_BUTTON_HEIGHT, java.awt.Image.SCALE_SMOOTH);
+        no_btn = new JButton(new ImageIcon(resized));
+        no_btn.setSize(Constants.NO_BUTTON_WIDTH + 10, Constants.NO_BUTTON_HEIGHT + 10);
+        no_btn.setBackground(Color.black);
+        no_btn.addActionListener(this);
+    }
+
+    public void initPlayAgainLabel() {
+        ImageIcon image = new ImageIcon("labels/play_again.png");
+        Image resized = image.getImage().getScaledInstance(Constants.PLAY_AGAIN_LABEL_WIDTH, Constants.PLAY_AGAIN_LABEL_HEIGHT, java.awt.Image.SCALE_SMOOTH);
+        play_again_label = new JLabel(new ImageIcon(resized));
+        play_again_label.setSize(Constants.PLAY_AGAIN_LABEL_WIDTH, Constants.PLAY_AGAIN_LABEL_HEIGHT);
     }
 
     public void initPointsLabel() {
@@ -125,7 +163,8 @@ public class Board extends JPanel implements ActionListener{
         return next;
     }
 
-    private void initBoardMap() {
+    public void initBoardMap() {
+        board_map.clear();
         for(int x = Constants.CARDS_MOST_LEFT_POSITION; x <= Constants.CARDS_MOST_RIGHT_POSITION; x += Constants.BOARD_CARD_DISTANCE) {
             board_map.put(new Point(x, Constants.BOARD_UPPER_CARD_Y), Boolean.FALSE); 
         }

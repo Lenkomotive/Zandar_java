@@ -27,6 +27,11 @@ public class Deck{
         return instance;
     }
 
+    public void reshuffle() {
+        cards.clear();
+        initDeck();
+    }
+
     public Card getCard() {
         Card card = cards.get(cards.size() - 1);
         cards.remove(cards.size() - 1);

@@ -108,7 +108,7 @@ public class StartScreen extends JPanel implements ActionListener{
     }
 
     public void initChoosePlayerLabel() {
-        ImageIcon choose_player = new ImageIcon("buttons/choose_player.png");
+        ImageIcon choose_player = new ImageIcon("labels/choose_player.png");
         Image resized = choose_player.getImage().getScaledInstance(Constants.CHOOSE_PLAYER_LABEL_WIDTH, Constants.CHOOSE_PLAYER_LABEL_HEIGHT, java.awt.Image.SCALE_SMOOTH);
         choose_player_label = new JLabel(new ImageIcon(resized));
         choose_player_label.setSize(Constants.CHOOSE_PLAYER_LABEL_WIDTH, Constants.CHOOSE_PLAYER_LABEL_HEIGHT);

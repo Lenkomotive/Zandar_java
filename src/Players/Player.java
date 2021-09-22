@@ -14,9 +14,6 @@ public class Player extends JLabel{
     public ArrayList<Card> cards_in_hand = new ArrayList<Card>();
     public ArrayList<Card> collected_cards = new ArrayList<Card>();
     public boolean card_chosen = false;
-    public int num_clubs;
-    public boolean malena = false;
-    public boolean velika = false;
 
     private Player(PlayerType player) {
         initPlayerImage(player);

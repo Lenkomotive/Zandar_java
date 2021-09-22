@@ -2,6 +2,7 @@ package Players;
 
 import javax.swing.*;
 import java.util.*;
+import java.util.List;
 import java.awt.*;
 import javax.swing.border.*;
 
@@ -18,6 +19,7 @@ public class Bot extends JLabel{
     public ArrayList<Card> collected_cards = new ArrayList<Card>();
     private ArrayList<Card> current_board_cards = null;
     public Border board_card_border = new LineBorder(Constants.GOLD, 5);
+    private List<Integer> board_cards = new ArrayList<Integer>();
 
     private Bot() {
         ImageIcon image = new ImageIcon("players/chad.png");
@@ -62,17 +64,24 @@ public class Bot extends JLabel{
         current_board_cards = board_cards;
         BotMove move = null;
 
+        findPotentionBoardCards();
+
+        move = tryTakeThreeCards();
+        if(move != null) {
+            return move;
+        }
+
         move = tryTakeTwoCards();
         if(move != null) {
             return move;
         }
 
-        move = tryTakeOneCard();
+        move = imaliZandar(); 
         if(move != null) {
             return move;
         }
 
-        move = imaliZandar(); 
+        move = tryTakeOneCard();
         if(move != null) {
             return move;
         }
@@ -130,35 +139,69 @@ public class Bot extends JLabel{
         return lowest;
     }
 
-    private BotMove tryTakeTwoCards() {
-        BotMove move = null;
-        if(current_board_cards.size() < 2) {
-            return move;
+    private void findPotentionBoardCards() {
+        board_cards.clear();
+        for(Card card: current_board_cards) {
+            if(card.value < 10) {
+                board_cards.add((Integer)card.value);
+            }
+        }
+    }
+
+    private BotMove tryTakeThreeCards() {
+        if(current_board_cards.size() < 3) {
+            return null;
         }
 
         for(Card card_in_hand: cards_in_hand) {
-            if(card_in_hand.value == Constants.Queen || card_in_hand.value == Constants.King) {
+            if(card_in_hand.value > 10) {
                 continue;
             }
-            for(int first_card = 0; first_card < current_board_cards.size() - 1; first_card++) {
-                for(int second_card = first_card + 1; second_card < current_board_cards.size(); second_card++) {
-                    int first_card_value = current_board_cards.get(first_card).value;
-                    int second_card_value = current_board_cards.get(second_card).value;
-                    if((first_card_value + second_card_value) == card_in_hand.value) {
-                        move = new BotMove();
-                        move.card_in_hand = card_in_hand;
-                        current_board_cards.get(first_card).setBorder(board_card_border);
-                        current_board_cards.get(second_card).setBorder(board_card_border);
-                        move.board_cards.add(current_board_cards.get(first_card));
-                        move.board_cards.add(current_board_cards.get(second_card));
-                        move.move_type = MoveType.TAKE;
-                        return move;
+            int limit_for_first = card_in_hand.value / 3;
+            int limit_for_second = card_in_hand.value % 2 == 0? card_in_hand.value / 2 - 1: card_in_hand.value / 2;
+    
+            for(Integer first = 1; first <= limit_for_first; first++) {
+                if(board_cards.contains(first)) {
+                    List<Integer> sublist_1 = new ArrayList<>(board_cards);
+                    sublist_1.remove(first);
+                    for(Integer second = first; second <= limit_for_second; second++) {
+                        if(sublist_1.contains(second)) {
+                            List<Integer> sublist_2 = new ArrayList<>(sublist_1);
+                            sublist_2.remove(second);
+                            Integer third = card_in_hand.value - (first + second);
+                            if(sublist_2.contains(third)) {
+                                return createMove(card_in_hand, Arrays.asList(first, second, third));
+                            }
+                        }
                     }
                 }
             }
         }
 
-        return move;
+        return null;
+    }
+
+    private BotMove tryTakeTwoCards() {
+        if(current_board_cards.size() < 2) {
+            return null;
+        }
+
+        for(Card card_in_hand: cards_in_hand) {
+            if(card_in_hand.value > 10) {
+                continue;
+            }
+            for(Integer first = 1; first <= card_in_hand.value / 2; first++) {
+                if(board_cards.contains(first)) {
+                    List<Integer> board_cards_sublist = new ArrayList<>(board_cards);
+                    board_cards_sublist.remove(first);
+                    Integer second = card_in_hand.value - first;
+                    if(board_cards_sublist.contains(second)) {
+                        return createMove(card_in_hand, Arrays.asList(first, second));
+                    }
+                }
+            }
+        }
+        return null;
     }     
 
     private BotMove tryTakeOneCard() {
@@ -192,4 +235,29 @@ public class Bot extends JLabel{
         }
         return move;
     }
+
+    private BotMove createMove(Card card_in_hand, List<Integer> cards_to_take) {
+        BotMove move = new BotMove();
+        move.card_in_hand = card_in_hand;
+        move.move_type = MoveType.TAKE;
+
+        ArrayList<Card> sublist = new ArrayList<Card>(current_board_cards);
+        for(var value: cards_to_take) {
+            Card to_remove = null;
+            for(Card board_card: sublist) {
+                if(board_card.value == value) {
+                    move.board_cards.add(board_card);
+                    board_card.setBorder(board_card_border);
+                    to_remove = board_card;
+                    break;
+                }
+            }
+            if(to_remove != null) {
+                sublist.remove(to_remove);
+            }
+        }
+
+        return move;
+    }
+
 }
